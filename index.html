@@ -399,7 +399,7 @@ function renderSeasons(){const available=DATA.seasons.filter(s=>s.available);ret
 function renderReader(){const e=episode(state.ep)||episode(1);const s=season(e.season);const paragraphs=e.text.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');const progress=state.progress[e.n]||0;const saved=state.bookmarks.includes(e.n);return `<div class="reader-progress" role="progressbar" aria-label="Lesefortschritt in dieser Episode" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(progress)}"><i id="readerProgressBar" style="width:${progress}%"></i></div><div class="reader-crumb"><button data-page="seasons">Staffeln & Episoden</button> / <button data-season-list="${e.season}">Staffel ${e.season}</button> / Episode ${String(e.n).padStart(2,'0')}</div><div class="reader-head"><div class="eyebrow">Staffel ${e.season} · Episode ${String(e.n).padStart(2,'0')} · ${esc(e.genre)}</div><h1>${esc(e.title)}</h1><div class="reader-deck">${esc(e.deck)}</div><div class="reader-meta"><span class="meta-pill">${esc(e.place)}</span><span class="meta-pill">${e.cast.length} Figuren im Mittelpunkt</span><span class="meta-pill">${countWords(e.text).toLocaleString('de-DE')} Wörter</span><span class="meta-pill">ca. ${Math.max(1,Math.ceil(countWords(e.text)/190))} Min. Lesezeit</span><span class="meta-pill">${s.title}</span></div></div><section class="tts-panel ai-audio-panel hh-one-button-panel" id="ttsPanel" aria-label="Hörbuch">
 <div class="hh-player-buttons">
   <button class="btn primary hh-play-button" data-action="tts-play" id="ttsPlayBtn" type="button" aria-pressed="false">▶ KI Vorlesen lassen</button>
-  <button class="btn small hh-download-button" data-action="tts-download" id="ttsDownloadBtn" type="button" disabled title="Download wird nach dem Auffinden einer MP3 oder der vollständigen KI-Audioerzeugung aktiviert.">↓ MP3</button>
+  <button class="btn small hh-download-button" data-action="tts-download" id="ttsDownloadBtn" type="button" disabled title="Download wird nach dem Auffinden einer MP3/WAV oder der vollständigen KI-Audioerzeugung aktiviert.">↓ Audio</button>
 </div>
 <div class="hh-loading" id="ttsLoading" hidden aria-live="polite" aria-atomic="true">
   <div class="hh-loading-head"><span id="ttsProgressText">Stimme wird vorbereitet …</span><span id="ttsProgressPercent">0%</span></div>
@@ -408,7 +408,7 @@ function renderReader(){const e=episode(state.ep)||episode(1);const s=season(e.s
 <div class="hh-loading-error" id="ttsLoadingError" hidden role="alert"></div>
 <div class="tts-status hh-sr-only" id="ttsStatus" role="status" aria-live="polite" data-state="idle">Bereit.</div>
 <audio id="ttsAudioPlayer" preload="none" aria-label="Hörbuch" hidden></audio>
-<p class="hh-sr-only" id="ttsMp3Hint">Die Anwendung sucht nach einer MP3-Datei im selben Ordner wie die HTML-Datei. Das Namensschema lautet Staffel_Episode.mp3, beispielsweise 2_1.mp3.</p>
+<p class="hh-sr-only" id="ttsMp3Hint">Die Anwendung sucht nach einer MP3- oder WAV-Datei im selben Ordner wie die HTML-Datei. Das Namensschema lautet Staffel_Episode.mp3 oder Staffel_Episode.wav, beispielsweise 2_1.mp3 oder 2_1.wav.</p>
 </section>
 <div class="reader-toolbar"><button class="btn small" data-action="toc">☷ Inhaltsübersicht</button><button class="btn small" data-action="bookmark-current">${saved?'★ Gespeichert':'☆ Lesezeichen'}</button><span class="tool-label">Schrift</span><button class="btn small" data-font="small" aria-label="Kleine Schriftgröße" aria-pressed="${state.font==='small'}">A−</button><button class="btn small" data-font="normal" aria-label="Normale Schriftgröße" aria-pressed="${state.font==='normal'}">A</button><button class="btn small" data-font="large" aria-label="Große Schriftgröße" aria-pressed="${state.font==='large'}">A+</button><button class="btn small" data-font="xlarge" aria-label="Extra große Schriftgröße" aria-pressed="${state.font==='xlarge'}">A++</button><button class="btn small" data-action="fullscreen">⛶ Lesen</button><button class="btn small" data-action="print">Drucken</button></div><article class="reader-body" id="readerBody">${paragraphs}</article><div class="reader-note"><b>Aus dieser Episode:</b> <div class="reader-cast-strip">${e.cast.map(readerCastChip).join('')}</div><span class="reader-cast-place">Schauplatz: ${esc(e.place)}. Diese Geschichte ist Teil des fortlaufenden Serienkanons.</span></div><div class="reader-end"><span id="readStatus">${progress>=95?'Episode gelesen':`Lesefortschritt: ${Math.round(progress)}%`}</span><div class="reader-nav"><button class="btn small" data-episode="${Math.max(1,e.n-1)}" ${e.n===1?'disabled':''}>← Vorherige</button><button class="btn small primary" data-episode="${Math.min(80,e.n+1)}" ${e.n===80?'disabled':''}>Nächste →</button></div></div>${footer()}`}
 const CHARACTER_PHOTOS = {
@@ -558,21 +558,22 @@ function ttsHasCompleteGeneratedAudio(episodeNo=state.ep){
 function ttsRefreshButtons(){
   const play=$('#ttsPlayBtn');
   if(play){
-    const hasMp3=ttsCurrentMp3Info?.status==='present';
-    play.textContent=ttsIsRunning?'■ Stoppen':(hasMp3?'▶ Vorlesung starten':'▶ KI Vorlesen lassen');
+    const hasPublishedAudio=ttsCurrentMp3Info?.status==='present';
+    play.textContent=ttsIsRunning?'■ Stoppen':(hasPublishedAudio?'▶ Vorlesung starten':'▶ KI Vorlesen lassen');
     play.setAttribute('aria-pressed',String(ttsIsRunning));
-    play.setAttribute('aria-label',ttsIsRunning?'Hörbuchwiedergabe stoppen':(hasMp3?'Vorhandene MP3-Vorlesung starten':'Aktuelle Episode mit KI vorlesen lassen'));
+    play.setAttribute('aria-label',ttsIsRunning?'Hörbuchwiedergabe stoppen':(hasPublishedAudio?'Vorproduzierte Vorlesung starten':'Aktuelle Episode mit KI vorlesen lassen'));
     play.disabled=false;
   }
   const download=$('#ttsDownloadBtn');
   if(download){
-    const hasMp3=ttsCurrentMp3Info?.status==='present';
+    const hasPublishedAudio=ttsCurrentMp3Info?.status==='present';
     const hasGenerated=ttsHasCompleteGeneratedAudio(state.ep);
     if(hasGenerated)ttsLastWavEpisode=Number(state.ep);
-    download.disabled=!(hasMp3||hasGenerated);
-    download.textContent=hasMp3?'↓ MP3':(hasGenerated?'↓ Audio':'↓ MP3');
-    download.title=hasMp3?'Vorhandene MP3-Datei herunterladen':(hasGenerated?'Die vollständig generierte KI-Audiofassung als WAV herunterladen':'Der Download wird aktiviert, sobald eine MP3-Datei gefunden oder die KI-Audiofassung vollständig erzeugt wurde.');
-    download.setAttribute('aria-label',hasMp3?'MP3 der aktuellen Episode herunterladen':(hasGenerated?'Erzeugte Audiofassung herunterladen':'Audio-Download noch nicht verfügbar'));
+    const publishedExt=(ttsCurrentMp3Info?.extension||'mp3').toUpperCase();
+    download.disabled=!(hasPublishedAudio||hasGenerated);
+    download.textContent=hasPublishedAudio?'↓ '+publishedExt:(hasGenerated?'↓ WAV':'↓ Audio');
+    download.title=hasPublishedAudio?`Vorhandene ${publishedExt}-Datei herunterladen`:(hasGenerated?'Die vollständig generierte KI-Audiofassung als WAV herunterladen':'Der Download wird aktiviert, sobald eine MP3/WAV-Datei gefunden oder die KI-Audiofassung vollständig erzeugt wurde.');
+    download.setAttribute('aria-label',hasPublishedAudio?`${publishedExt}-Datei der aktuellen Episode herunterladen`:(hasGenerated?'Erzeugte Audiofassung herunterladen':'Audio-Download noch nicht verfügbar'));
   }
 }
 function ttsSetProgress(done,total,label=''){
@@ -627,41 +628,55 @@ function ttsEpisodeLocalNumber(ep){
   const index=inSeason.findIndex(x=>Number(x.n)===Number(ep.n));
   return index>=0?index+1:((Number(ep.n)-1)%10)+1;
 }
-function ttsCompanionMp3Info(ep){
-  if(!ep)return null;
+function ttsCompanionAudioCandidates(ep){
+  if(!ep)return [];
   const localNo=ttsEpisodeLocalNumber(ep);
-  const filename=`${Number(ep.season)}_${localNo}.mp3`;
   const pageUrl=new URL(window.location.href);
-  // GitHub's source-browser URL is HTML; use the matching raw-file URL instead.
+  // GitHub source-browser URL -> raw-file URL in the same repository folder.
   const github=pageUrl.hostname==='github.com'?pageUrl.pathname.match(/^\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.*)$/):null;
-  let url;
-  if(github){
-    const folder=github[4].split('/').slice(0,-1).filter(Boolean).join('/');
-    url=`https://raw.githubusercontent.com/${github[1]}/${github[2]}/${github[3]}/${folder?folder+'/':''}${filename}`;
-  }else{
-    url=new URL(filename,document.baseURI).href;
-  }
-  return {filename,url,episode:Number(ep.n),season:Number(ep.season),localEpisode:localNo};
+  const folder=github?github[4].split('/').slice(0,-1).filter(Boolean).join('/'):'';
+  return ['mp3','wav'].map(extension=>{
+    const filename=`${Number(ep.season)}_${localNo}.${extension}`;
+    let url;
+    if(github){
+      url=`https://raw.githubusercontent.com/${github[1]}/${github[2]}/${github[3]}/${folder?folder+'/':''}${filename}`;
+    }else{
+      url=new URL(filename,document.baseURI).href;
+    }
+    return {filename,url,extension,episode:Number(ep.n),season:Number(ep.season),localEpisode:localNo,contentType:extension==='mp3'?'audio/mpeg':'audio/wav'};
+  });
 }
-async function ttsCheckCompanionMp3(ep){
-  const info=ttsCompanionMp3Info(ep);
-  if(!info)return {status:'missing'};
-  if(location.protocol==='file:')return {...info,status:'unsupported-local-file',reason:'Die automatische Erkennung benachbarter MP3-Dateien ist bei file:// durch Browser-Sicherheitsregeln blockiert. Bitte über GitHub Pages oder einen lokalen Webserver öffnen.'};
+async function ttsProbeCompanionAudio(info){
   if(ttsMp3ProbeCache.has(info.url))return ttsMp3ProbeCache.get(info.url);
   const promise=(async()=>{
     const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),7000);
     try{
       const response=await fetch(info.url,{method:'HEAD',cache:'no-store',redirect:'follow',signal:controller.signal});
-      if(response.ok)return {...info,status:'present',contentType:response.headers.get('content-type')||'audio/mpeg'};
+      if(response.ok)return {...info,status:'present',contentType:response.headers.get('content-type')||info.contentType};
       if(response.status===404||response.status===410)return {...info,status:'missing'};
-      return {...info,status:'unknown',reason:`MP3-Prüfung antwortete mit HTTP ${response.status}.`};
+      return {...info,status:'unknown',reason:`Prüfung von ${info.filename} antwortete mit HTTP ${response.status}.`};
     }catch(err){
-      return {...info,status:'unknown',reason:err?.name==='AbortError'?'Zeitüberschreitung bei der MP3-Prüfung.':'MP3-Datei konnte nicht geprüft werden (Netzwerk/CORS).'};
+      return {...info,status:'unknown',reason:err?.name==='AbortError'?`Zeitüberschreitung bei der Prüfung von ${info.filename}.`:`${info.filename} konnte nicht geprüft werden (Netzwerk/CORS).`};
     }finally{clearTimeout(timeout)}
   })();
   ttsMp3ProbeCache.set(info.url,promise);
   return promise;
 }
+async function ttsCheckCompanionAudio(ep){
+  const candidates=ttsCompanionAudioCandidates(ep);
+  if(!candidates.length)return {status:'missing'};
+  if(location.protocol==='file:')return {...candidates[0],status:'unsupported-local-file',reason:'Die automatische Erkennung benachbarter MP3/WAV-Dateien ist bei file:// durch Browser-Sicherheitsregeln blockiert. Bitte über GitHub Pages oder einen lokalen Webserver öffnen.'};
+  let unknown=null;
+  // Prefer MP3 when both formats exist; otherwise use WAV.
+  for(const info of candidates){
+    const result=await ttsProbeCompanionAudio(info);
+    if(result.status==='present')return result;
+    if(result.status==='unknown'&&!unknown)unknown=result;
+  }
+  return unknown||{...candidates[0],status:'missing'};
+}
+// Backwards-compatible alias for older internal callers.
+const ttsCheckCompanionMp3=ttsCheckCompanionAudio;
 function ttsProbeCurrentEpisodeMp3(){
   const ep=episode(state.ep);const token=++ttsMp3UiToken;
   ttsCurrentMp3Info=null;ttsRefreshButtons();
@@ -680,14 +695,14 @@ function ttsDownloadBlob(blob,filename){
 function ttsPlayCompanionMp3(ep,info){
   const player=$('#ttsAudioPlayer');
   if(!player)throw new Error('Der Audio-Player ist in dieser Ansicht nicht verfügbar.');
-  ttsStop(false);ttsSegments=[{id:`published-mp3-${ep.n}`,text:'',role:'narrator',speaker:'Vorproduzierte MP3'}];ttsAudioBlobs=[null];ttsCurrentIndex=0;ttsRunEpisode=ep.n;ttsRunMode='published-mp3';ttsLastWavBlob=null;ttsLastWavEpisode=0;ttsIsRunning=true;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsPublishedMp3Active=true;const run=++ttsRunId;
+  ttsStop(false);ttsSegments=[{id:`published-audio-${ep.n}`,text:'',role:'narrator',speaker:'Vorproduziertes Hörbuch'}];ttsAudioBlobs=[null];ttsCurrentIndex=0;ttsRunEpisode=ep.n;ttsRunMode='published-audio';ttsLastWavBlob=null;ttsLastWavEpisode=0;ttsIsRunning=true;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsPublishedMp3Active=true;const run=++ttsRunId;
   if(ttsCurrentUrl){URL.revokeObjectURL(ttsCurrentUrl);ttsCurrentUrl=null}
   player.pause();player.src=info.url;player.currentTime=0;
-  ttsSetProgress(0,1,'Vorproduzierte MP3 wird geladen …');ttsStatus(`Vorhandene MP3 wird abgespielt · ${info.filename}`,'playing');ttsRefreshButtons();
+  ttsSetProgress(0,1,`Vorproduzierte ${info.extension.toUpperCase()} wird geladen …`);ttsStatus(`Vorhandene ${info.extension.toUpperCase()} wird abgespielt · ${info.filename}`,'playing');ttsRefreshButtons();
   player.ontimeupdate=()=>{if(run!==ttsRunId||!ttsIsRunning)return;if(Number.isFinite(player.duration)&&player.duration>0){const pct=Math.round(player.currentTime/player.duration*100);ttsSetProgress(pct,100,`Vorlesung · ${pct}%`);}};
-  player.onloadedmetadata=()=>{if(run===ttsRunId&&ttsIsRunning)ttsSetProgress(0,100,'Vorlesung startet · vorhandene MP3-Datei');};
+  player.onloadedmetadata=()=>{if(run===ttsRunId&&ttsIsRunning)ttsSetProgress(0,100,`Vorlesung startet · vorhandene ${info.extension.toUpperCase()}-Datei`);};
   player.onended=()=>{if(run!==ttsRunId||!ttsIsRunning)return;ttsSetProgress(100,100,'Vorlesung vollständig gehört');ttsComplete(run)};
-  player.onerror=()=>{if(run!==ttsRunId||!ttsIsRunning)return;ttsStop(false);ttsStatus(`Die vorhandene Datei ${info.filename} konnte nicht abgespielt werden. Bitte MP3-Datei und Dateinamen prüfen. Es wurde keine KI-Neugenerierung gestartet.`,'error');};
+  player.onerror=()=>{if(run!==ttsRunId||!ttsIsRunning)return;ttsStop(false);ttsStatus(`Die vorhandene Datei ${info.filename} konnte nicht abgespielt werden. Bitte Audiodatei und Dateinamen prüfen. Es wurde keine KI-Neugenerierung gestartet.`,'error');};
   player.play().then(()=>ttsRefreshButtons()).catch(err=>{if(run!==ttsRunId)return;ttsStop(false);ttsStatus(`Die MP3-Wiedergabe konnte nicht gestartet werden: ${err?.message||'Browserfehler'}. Bitte erneut auf Abspielen drücken.`,'error');});
 }
 
@@ -1202,13 +1217,13 @@ async function ttsPlayNext(runId){
 }
 async function ttsComplete(runId){
   if(runId!==ttsRunId)return;
-  const wasPublishedMp3=ttsRunMode==='published-mp3';
+  const wasPublishedMp3=ttsRunMode==='published-audio';
   ttsIsRunning=false;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsUsingSystemFallback=false;ttsSystemUtterance=null;ttsPublishedMp3Active=false;
   const player=$('#ttsAudioPlayer');if(player){player.onended=null;player.onerror=null;player.ontimeupdate=null;}
   const allGenerated=!wasPublishedMp3&&ttsHasCompleteGeneratedAudio(ttsRunEpisode);
   if(allGenerated)ttsLastWavEpisode=Number(ttsRunEpisode);
   else if(!wasPublishedMp3){ttsLastWavBlob=null;ttsLastWavEpisode=0;}
-  ttsStatus(wasPublishedMp3?'Vorlesung vollständig abgespielt. Die vorhandene MP3-Datei wurde direkt verwendet.':'Episode vollständig abgespielt. Erzeugte Audioabschnitte bleiben lokal gespeichert.','idle');
+  ttsStatus(wasPublishedMp3?'Vorlesung vollständig abgespielt. Die vorhandene Audiodatei wurde direkt verwendet.':'Episode vollständig abgespielt. Erzeugte Audioabschnitte bleiben lokal gespeichert.','idle');
   ttsSetProgress(ttsSegments.length,ttsSegments.length,'Fertig · Episode vollständig gehört');ttsRefreshButtons();
 }
 function ttsStop(showMessage=true){
@@ -1249,7 +1264,7 @@ async function ttsPlay(){
       return;
     }
     if(mp3Info?.status==='unknown'){
-      ttsStatus(`${mp3Info.reason||'Die MP3-Datei konnte nicht geprüft werden.'} Es wird mit der KI-Stimme fortgefahren.`,'loading');
+      ttsStatus(`${mp3Info.reason||'Die MP3/WAV-Datei konnte nicht geprüft werden.'} Es wird mit der KI-Stimme fortgefahren.`,'loading');
     }
     const segments=ttsBuildSegments(ep);
     if(!segments.length)throw new Error(`Episode ${String(ep.n).padStart(2,'0')} enthält keinen vorlesbaren Text.`);
@@ -1284,13 +1299,13 @@ async function ttsDownload(){
       const response=await fetch(info.url,{method:'GET',cache:'force-cache'});
       if(!response.ok)throw new Error(`HTTP ${response.status}`);
       const blob=await response.blob();
-      if(!blob.size)throw new Error('Die MP3-Datei ist leer.');
+      if(!blob.size)throw new Error('Die Audiodatei ist leer.');
       ttsDownloadBlob(blob,info.filename);
       ttsStatus(`${info.filename} wurde heruntergeladen.`,'idle');return;
     }catch(err){
       // Same-origin/GitHub Pages fallback: let the browser handle the file URL.
       const a=document.createElement('a');a.href=info.url;a.download=info.filename;a.rel='noopener';document.body.append(a);a.click();a.remove();
-      ttsStatus(`Download der vorhandenen MP3 wurde gestartet. Falls der Browser sie nur öffnet, über das Download-Menü speichern. (${err.message||'Netzwerkfehler'})`,'idle');return;
+      ttsStatus(`Download der vorhandenen ${info.extension.toUpperCase()} wurde gestartet. Falls der Browser sie nur öffnet, über das Download-Menü speichern. (${err.message||'Netzwerkfehler'})`,'idle');return;
     }
   }
   if(ttsHasCompleteGeneratedAudio(e.n)){
@@ -1300,7 +1315,7 @@ async function ttsDownload(){
       ttsStatus('Die erzeugte Google-TTS-Audiodatei wurde als WAV gespeichert. Für eine echte MP3-Datei bitte die MP3 neben der HTML-Datei ablegen.','idle');return;
     }catch(err){ttsStatus('Die Audiodatei konnte nicht zusammengeführt werden: '+(err.message||'unbekannter Fehler'),'error');return;}
   }
-  ttsStatus('Für diese Episode liegt noch keine MP3-Datei vor. Nach vollständiger KI-Erzeugung ist die erzeugte Audiofassung als WAV speicherbar.','error');
+  ttsStatus('Für diese Episode liegt noch keine MP3- oder WAV-Datei vor. Nach vollständiger KI-Erzeugung ist die erzeugte Audiofassung als WAV speicherbar.','error');
 }
 function ttsToggleKeyVisibility(){const el=$('#ttsApiKey');if(!el)return;el.type=el.type==='password'?'text':'password';const b=$('[data-action="tts-key-toggle"]');if(b)b.textContent=el.type==='password'?'Anzeigen':'Verbergen'}
 
