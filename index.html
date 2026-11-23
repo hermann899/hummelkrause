@@ -158,6 +158,108 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none!important;box-shad
  .reader-toolbar .tool-label{width:100%;margin-top:3px}
  .reader-toolbar .btn{min-height:37px}
 }
+
+/* Hörbuchmodus – native, kostenfreie Browser-Sprachausgabe */
+.tts-panel{margin:20px 0 16px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--card),var(--paper-2));box-shadow:0 8px 26px rgba(30,42,32,.055)}
+.tts-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.tts-kicker{font:700 10px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--moss);margin-bottom:5px}
+.tts-title{font:600 20px var(--serif);color:var(--ink);line-height:1.2}
+.tts-description{font:13px/1.55 var(--sans);color:var(--muted);margin-top:5px;max-width:650px}
+.tts-chip{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--moss);font:700 10px var(--sans);letter-spacing:.04em;background:var(--card);white-space:nowrap}
+.tts-main{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tts-main .btn{min-height:38px}
+.tts-main .btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.tts-status{display:flex;align-items:center;gap:8px;min-height:22px;margin-top:10px;color:var(--muted);font:12px/1.45 var(--sans)}
+.tts-status:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);flex:0 0 7px}
+.tts-status[data-state="playing"]:before{background:#60865e;box-shadow:0 0 0 4px rgba(96,134,94,.13)}
+.tts-status[data-state="error"]:before{background:#b65d4d}
+.tts-settings{margin-top:11px;border-top:1px solid var(--line);padding-top:10px}
+.tts-settings summary{cursor:pointer;list-style:none;color:var(--forest-2);font:650 12px var(--sans);display:flex;align-items:center;gap:8px;min-height:28px}
+html[data-theme="dark"] .tts-settings summary{color:var(--gold-soft)}
+.tts-settings summary::-webkit-details-marker{display:none}
+.tts-settings summary:after{content:"＋";margin-left:auto;color:var(--gold);font-size:16px}
+.tts-settings[open] summary:after{content:"−"}
+.tts-settings-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.tts-settings label{display:flex;flex-direction:column;gap:5px;color:var(--muted);font:600 11px var(--sans);min-width:0}
+.tts-settings select{width:100%;min-width:0;min-height:36px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);padding:6px 8px;font:12px var(--sans)}
+.tts-settings input[type="range"]{width:100%;accent-color:var(--gold)}
+.tts-rate-head{display:flex;justify-content:space-between;gap:8px}
+.tts-rate-head output{color:var(--ink);font-variant-numeric:tabular-nums}
+.tts-check{display:flex!important;flex-direction:row!important;align-items:center;gap:8px!important;margin-top:13px;color:var(--ink)!important;font-weight:500!important}
+.tts-check input{accent-color:var(--moss);width:16px;height:16px}
+.tts-foot{margin:10px 0 0;color:var(--muted);font:11px/1.55 var(--sans)}
+.tts-unsupported{margin-top:12px;border-radius:10px;background:var(--paper-2);padding:10px 12px;color:var(--muted);font:12px/1.5 var(--sans)}
+@media(max-width:760px){.tts-panel{padding:15px;margin:16px 0}.tts-title{font-size:18px}.tts-description{font-size:12px}.tts-settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tts-chip{font-size:9px;padding:5px 8px}}
+@media(max-width:420px){.tts-top{display:block}.tts-chip{display:inline-flex;margin-top:9px}.tts-main{display:grid;grid-template-columns:1fr 1fr}.tts-main [data-action="tts-play"]{grid-column:1/-1}.tts-settings-grid{grid-template-columns:1fr}.tts-main .btn{width:100%;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.tts-panel *{scroll-behavior:auto!important}}
+
+
+/* Minimaler Ein-Knopf-Hörbuchplayer */
+.hh-one-button-panel{display:flex;justify-content:center;align-items:center;margin:18px 0 22px;padding:12px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,var(--card),var(--paper-2));box-shadow:0 8px 24px rgba(28,44,34,.055)}
+.hh-play-button{min-width:180px;min-height:48px;padding:12px 28px!important;border-radius:999px!important;font:700 14px var(--sans)!important;letter-spacing:.015em;box-shadow:0 5px 16px rgba(31,57,43,.14);transition:transform .16s ease,box-shadow .16s ease}
+.hh-play-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,57,43,.18)}
+.hh-play-button[aria-pressed="true"]{background:var(--forest-2);color:#fff}
+.hh-play-button:disabled{opacity:.72;cursor:wait;transform:none}
+.hh-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:480px){.hh-one-button-panel{margin:14px 0 18px;padding:10px}.hh-play-button{width:100%;min-height:50px}}
+@media(prefers-reduced-motion:reduce){.hh-play-button{transition:none}}
+
+/* Sichtbarer Lade- und Hörfortschritt für die natürliche KI-Stimme */
+.hh-loading{width:min(100%,560px);margin:15px auto 2px;padding:0 2px}
+.hh-loading[hidden],.hh-loading-error[hidden]{display:none!important}
+.hh-loading-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 1px 7px;color:var(--muted);font:600 11px/1.4 var(--sans);font-variant-numeric:tabular-nums}
+#ttsProgressPercent{color:var(--ink);font-weight:750;min-width:38px;text-align:right}
+.hh-loading-track{position:relative;height:8px;overflow:hidden;border-radius:99px;background:var(--line);box-shadow:inset 0 1px 2px rgba(20,30,23,.08)}
+.hh-loading-track i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--moss),var(--gold));transition:width .22s ease}
+.hh-loading-track.is-indeterminate i{width:36%;background:linear-gradient(90deg,rgba(91,125,91,.5),var(--moss),var(--gold));animation:hhAudioload 1.25s ease-in-out infinite}
+.hh-loading-error{width:min(100%,560px);margin:12px auto 0;padding:9px 12px;border:1px solid rgba(171,72,61,.25);border-radius:10px;background:rgba(171,72,61,.07);color:var(--ink);font:12px/1.5 var(--sans);overflow-wrap:anywhere;text-align:left}
+@keyframes hhAudioload{0%{transform:translateX(-110%)}100%{transform:translateX(290%)}}
+@media(max-width:480px){.hh-loading{margin-top:13px}.hh-loading-head{font-size:10px}.hh-loading-track{height:7px}}
+@media(prefers-reduced-motion:reduce){.hh-loading-track.is-indeterminate i{animation:none;width:65%;transform:none}}
+
+/* Natural AI audiobook studio */
+.ai-audio-panel{border-color:rgba(177,138,74,.46);background:linear-gradient(145deg,var(--card) 0%,var(--paper-2) 100%);box-shadow:0 14px 38px rgba(28,44,34,.08)}
+.ai-chip{background:var(--forest);color:#f5eddd;border-color:var(--forest);font-size:10px}
+.ai-audio-intro{display:flex;gap:12px;align-items:flex-start;background:rgba(177,138,74,.10);border:1px solid rgba(177,138,74,.23);border-radius:12px;padding:12px 14px;margin-top:15px}
+.ai-spark{width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:var(--forest);color:#f3dfae;flex:0 0 27px}
+.ai-audio-intro b,.ai-audio-intro span{display:block}.ai-audio-intro b{font:700 12px var(--sans);color:var(--ink);margin:0 0 3px}.ai-audio-intro span{font:12px/1.55 var(--sans);color:var(--muted)}
+.ai-player-actions{gap:9px}.ai-player-actions .btn.primary{min-height:44px;padding-inline:18px}.ai-progress-wrap{margin-top:13px}.ai-progress-track{height:7px;background:var(--line);border-radius:20px;overflow:hidden}.ai-progress-track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--moss),var(--gold));border-radius:20px;transition:width .25s ease}.ai-progress-label{display:flex;justify-content:space-between;gap:12px;margin-top:6px;color:var(--muted);font:11px var(--sans);font-variant-numeric:tabular-nums}
+.ai-audio-element{display:block;width:100%;height:42px;margin-top:12px;border-radius:8px;accent-color:var(--forest)}.ai-audio-download-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.ai-audio-download-row .btn:disabled{opacity:.45;cursor:not-allowed}
+.ai-settings{margin-top:15px}.ai-settings-body{padding-top:10px}.ai-settings-section{padding:14px 0;border-top:1px solid var(--line)}.ai-settings-section:first-child{border-top:0}.ai-section-title{display:flex;align-items:center;gap:10px;margin-bottom:13px}.ai-section-title>span{width:29px;height:29px;display:grid;place-items:center;border-radius:50%;background:var(--forest);color:#f3dfae;font:700 11px var(--sans);flex:0 0 29px}.ai-section-title b,.ai-section-title small{display:block}.ai-section-title b{font:700 13px var(--sans);color:var(--ink)}.ai-section-title small{font:11px/1.4 var(--sans);color:var(--muted);margin-top:2px}
+.ai-field-label{display:block;color:var(--ink);font:650 11px var(--sans);margin-bottom:6px}.ai-key-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px}.ai-key-row input{min-width:0;width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:var(--card);color:var(--ink);font:12px var(--sans)}.ai-key-options{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}.ai-inline-check{display:flex!important;flex-direction:row!important;align-items:center;gap:8px!important;color:var(--ink)!important;font:500 11px/1.45 var(--sans)!important}.ai-inline-check input{accent-color:var(--moss);width:16px;height:16px;flex:0 0 16px}.ai-note{font:11px/1.55 var(--sans);color:var(--muted);margin:8px 0 0}.ai-note a{color:var(--moss);font-weight:700;text-decoration:underline;text-underline-offset:2px}.ai-privacy-note{font:11px/1.55 var(--sans);color:var(--muted);background:var(--paper-2);border-left:3px solid var(--gold);padding:10px 12px;margin-top:10px;border-radius:0 8px 8px 0}.ai-privacy-note b{color:var(--ink)}.ai-consent{margin-top:12px!important;padding:9px 10px;background:rgba(177,138,74,.10);border-radius:9px}
+.ai-voice-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.ai-voice-grid label{display:flex;flex-direction:column;gap:5px;min-width:0;color:var(--muted);font:650 11px var(--sans)}.ai-voice-grid select,.ai-style-options select{width:100%;min-width:0;min-height:38px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);padding:7px 9px;font:12px var(--sans)}.ai-voice-grid small{font:10px/1.4 var(--sans);color:var(--muted);font-weight:400}.ai-style-options{display:grid;gap:9px;margin-top:13px;padding:12px;border-radius:11px;background:var(--paper-2)}.ai-style-options .ai-field-label{margin:0}.ai-settings-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ai-foot{margin-top:12px}.tts-status[data-state="loading"]:before{background:var(--gold);box-shadow:0 0 0 4px rgba(177,138,74,.14);animation:aiPulse 1.25s infinite}@keyframes aiPulse{50%{box-shadow:0 0 0 7px rgba(177,138,74,0)}}
+@media(max-width:900px){.ai-voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.ai-audio-panel{padding:15px;margin:16px 0}.ai-audio-intro{padding:10px}.ai-player-actions{display:grid;grid-template-columns:1fr 1fr}.ai-player-actions [data-action="tts-play"]{grid-column:1/-1}.ai-player-actions .btn{width:100%;justify-content:center}.ai-audio-download-row{display:grid;grid-template-columns:1fr}.ai-audio-download-row .btn{justify-content:center}.ai-voice-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.tts-top{display:block}.ai-chip{display:inline-flex;margin-top:9px}.ai-key-row{grid-template-columns:minmax(0,1fr) auto}.ai-key-row button:last-child{grid-column:1/-1;width:100%}.ai-key-options{align-items:flex-start;flex-direction:column}.ai-voice-grid{grid-template-columns:1fr}.ai-audio-intro{gap:9px}.ai-audio-element{height:44px}}
+html[data-theme="dark"] .ai-audio-intro{background:rgba(209,180,119,.09);border-color:rgba(209,180,119,.2)}
+@media(prefers-reduced-motion:reduce){.ai-progress-track i{transition:none}.tts-status[data-state="loading"]:before{animation:none}}
+
+
+.ai-character-voice-settings{margin:14px 0 4px;border:1px solid var(--line);border-radius:13px;background:rgba(130,145,125,.06);padding:12px 14px}
+.ai-character-voice-settings>summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:13px;list-style:none;display:flex;align-items:center;gap:8px}
+.ai-character-voice-settings>summary::-webkit-details-marker{display:none}
+.ai-character-voice-settings>summary:after{content:'＋';margin-left:auto;color:var(--muted);font-size:18px}
+.ai-character-voice-settings[open]>summary:after{content:'−'}
+.ai-character-voice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.ai-character-voice-grid label{display:grid;gap:5px;min-width:0;font-size:12px;font-weight:700;color:var(--ink)}
+.ai-character-voice-grid select{width:100%;min-width:0;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);padding:8px;font:inherit;font-weight:500}
+.ai-character-voice-grid small{font-weight:400;color:var(--muted);font-size:10px;line-height:1.4}
+@media(max-width:760px){.ai-character-voice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:390px){.ai-character-voice-grid{grid-template-columns:1fr}}
+
+.ai-custom-voice-settings{margin:14px 0 10px;border:1px solid rgba(179,138,72,.35);border-radius:13px;background:rgba(179,138,72,.055);padding:12px 14px}
+.ai-custom-voice-settings>summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:13px;list-style:none;display:flex;align-items:center;gap:8px}
+.ai-custom-voice-settings>summary::-webkit-details-marker{display:none}
+.ai-custom-voice-settings>summary:after{content:'＋';margin-left:auto;color:var(--muted);font-size:18px}
+.ai-custom-voice-settings[open]>summary:after{content:'−'}
+.ai-custom-voice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.ai-custom-voice-grid label{display:grid;gap:5px;font-size:12px;font-weight:700;min-width:0}
+.ai-custom-voice-grid input,.ai-person-voice-field input{width:100%;min-width:0;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);padding:8px;font:inherit;font-size:11px;font-weight:500}
+.ai-voice-design-prompts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+.ai-voice-design-prompts>div{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card)}
+.ai-voice-design-prompts b{font-size:11px;color:var(--ink)}
+.ai-voice-design-prompts p{font-size:10px;line-height:1.5;color:var(--muted);margin:5px 0 0}
+@media(max-width:760px){.ai-custom-voice-grid,.ai-voice-design-prompts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -218,8 +320,8 @@ document.documentElement.dataset.theme=state.theme;
 const fontSizes={small:'17px',normal:'20px',large:'22px',xlarge:'25px'};
 document.documentElement.style.setProperty('--reading',fontSizes[state.font]||fontSizes.normal);
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._timer);toast._timer=setTimeout(()=>t.classList.remove('show'),2400)}
-function setPage(page){state.page=page;state.mobile=false;$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();window.scrollTo({top:0,behavior:'smooth'});$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));}
-function openEpisode(n){const e=episode(n);if(!e)return;closeModal();$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false');document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0);document.documentElement.style.scrollBehavior='';state.ep=e.n;state.page='reader';state.last=e.n;safeStore.set('last',state.last);state.progress[e.n]=state.progress[e.n]||0;safeStore.set('progress',state.progress);$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();history.replaceState(null,'','#episode-'+e.n);window.scrollTo(0,0);}
+function setPage(page){if(state.page==='reader'&&page!=='reader')ttsStop(false);state.page=page;state.mobile=false;$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();window.scrollTo({top:0,behavior:'smooth'});$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));}
+function openEpisode(n){const e=episode(n);if(!e)return;ttsStop(false);closeModal();$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false');document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0);document.documentElement.style.scrollBehavior='';state.ep=e.n;state.page='reader';state.last=e.n;safeStore.set('last',state.last);state.progress[e.n]=state.progress[e.n]||0;safeStore.set('progress',state.progress);$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();history.replaceState(null,'','#episode-'+e.n);window.scrollTo(0,0);}
 function avatarSvg(name,idx=0){const colors=[['#b6a27f','#63775c','#e9d6b7'],['#98a08b','#354c3e','#dec8a8'],['#c1ad91','#5c6e5a','#eadcc2'],['#a99b89','#455b50','#e2cfb2']];const c=colors[idx%colors.length];const female=/Ilse|Maja|Gisela|Nadine|Vera|Anja|Leni|Paula/.test(name);const hair=female?'#786b5a':'#8b8d80';return `<svg viewBox="0 0 150 180" role="img" aria-label="Illustratives Porträt von ${esc(name)}"><rect width="150" height="180" rx="16" fill="${c[0]}"/><path d="M0 148 Q75 105 150 148 V180 H0Z" fill="${c[1]}"/><path d="M35 180 Q40 120 75 116 Q110 120 115 180" fill="${c[1]}"/><ellipse cx="75" cy="73" rx="37" ry="45" fill="#e2c3a2"/><path d="M38 76 Q32 20 78 20 Q119 21 112 79 Q105 48 90 43 Q67 58 40 48Z" fill="${hair}"/><path d="M48 83 Q57 77 65 83 M85 83 Q94 77 102 83" stroke="#554a40" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M69 103 Q76 109 84 102" stroke="#9d6f61" stroke-width="2" fill="none" stroke-linecap="round"/>${/Harald/.test(name)?'<path d="M51 98 Q75 112 99 98 Q94 121 75 118 Q56 117 51 98Z" fill="#89877a"/><circle cx="55" cy="83" r="12" fill="none" stroke="#66706e" stroke-width="3"/><circle cx="95" cy="83" r="12" fill="none" stroke="#66706e" stroke-width="3"/><path d="M67 83 H83" stroke="#66706e" stroke-width="3"/>':''}<path d="M53 126 L75 143 L97 126 L111 180 H39Z" fill="${c[2]}"/><path d="M60 132 L75 143 L90 132" stroke="#b18a4a" stroke-width="2" fill="none"/></svg>`}
 function coverSvg(kind=1){
  const scenes={
@@ -245,7 +347,17 @@ function renderHome(){const last=episode(state.last)||episode(1);const readCount
 function seasonCard(s){return `<article class="season-card ${s.available?'':'coming-card'}"><div class="season-art">${coverSvg(s.n)}<span class="season-number">0${s.n}</span></div><div class="season-body"><div class="season-meta">${s.theme}</div><h3>${esc(s.title)}</h3><p>${esc(s.description)}</p><div class="season-foot"><span>${s.available?'10 vollständige Episoden':'Zweite Ausgabe'}</span>${s.available?`<button class="btn small" data-season="${s.n}">Staffel öffnen →</button>`:'<span>noch nicht enthalten</span>'}</div></div></article>`}
 function episodeRow(e){if(!e)return '';const saved=state.bookmarks.includes(e.n);return `<article class="episode-row"><div class="ep-no">${String(e.n).padStart(2,'0')}</div><div class="ep-main" role="button" tabindex="0" aria-label="Episode ${e.n}: ${esc(e.title)} öffnen" data-episode="${e.n}"><h3>${esc(e.title)}</h3><p>${esc(e.deck)}</p></div><div class="ep-side"><span class="ep-tag">${esc(e.genre)}</span><button class="bookmark-mini" data-bookmark="${e.n}" aria-label="Lesezeichen ${saved?'entfernen':'setzen'}">${saved?'★':'☆'}</button></div></article>`}
 function renderSeasons(){const available=DATA.seasons.filter(s=>s.available);return `<div class="eyebrow">Inhaltsverzeichnis</div><h1 class="page-title">Staffeln & Episoden</h1><p class="page-lede">Die Gesamtausgabe führt durch acht Staffeln und achtzig vollständige Geschichten. Jede Episode ist einzeln lesbar und mit Figuren, Schauplätzen und Serienchronik verknüpft.</p><div class="grid season-grid">${available.map(s=>seasonCard(s)).join('')}</div><div class="section-head"><div><h2>Alle 80 Episoden</h2><p>Nach Staffel filtern, Titel entdecken und direkt weiterlesen.</p></div></div><div class="filterbar"><select id="seasonFilter"><option value="0">Alle enthaltenen Staffeln</option>${available.map(s=>`<option value="${s.n}" ${state.seasonFilter===s.n?'selected':''}>Staffel ${s.n}</option>`).join('')}</select><input id="episodeFilter" type="search" placeholder="Episodentitel oder Inhalt filtern …"></div><div class="episode-list" id="allEpisodes">${DATA.episodes.filter(e=>!state.seasonFilter||e.season===state.seasonFilter).map(episodeRow).join('')}</div>${footer()}`}
-function renderReader(){const e=episode(state.ep)||episode(1);const s=season(e.season);const paragraphs=e.text.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');const progress=state.progress[e.n]||0;const saved=state.bookmarks.includes(e.n);return `<div class="reader-progress" role="progressbar" aria-label="Lesefortschritt in dieser Episode" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(progress)}"><i id="readerProgressBar" style="width:${progress}%"></i></div><div class="reader-crumb"><button data-page="seasons">Staffeln & Episoden</button> / <button data-season="${e.season}">Staffel ${e.season}</button> / Episode ${String(e.n).padStart(2,'0')}</div><div class="reader-head"><div class="eyebrow">Staffel ${e.season} · Episode ${String(e.n).padStart(2,'0')} · ${esc(e.genre)}</div><h1>${esc(e.title)}</h1><div class="reader-deck">${esc(e.deck)}</div><div class="reader-meta"><span class="meta-pill">${esc(e.place)}</span><span class="meta-pill">${e.cast.length} Figuren im Mittelpunkt</span><span class="meta-pill">${countWords(e.text).toLocaleString('de-DE')} Wörter</span><span class="meta-pill">ca. ${Math.max(1,Math.ceil(countWords(e.text)/190))} Min. Lesezeit</span><span class="meta-pill">${s.title}</span></div></div><div class="reader-toolbar"><button class="btn small" data-action="toc">☷ Inhaltsübersicht</button><button class="btn small" data-action="bookmark-current">${saved?'★ Gespeichert':'☆ Lesezeichen'}</button><span class="tool-label">Schrift</span><button class="btn small" data-font="small" aria-label="Kleine Schriftgröße" aria-pressed="${state.font==='small'}">A−</button><button class="btn small" data-font="normal" aria-label="Normale Schriftgröße" aria-pressed="${state.font==='normal'}">A</button><button class="btn small" data-font="large" aria-label="Große Schriftgröße" aria-pressed="${state.font==='large'}">A+</button><button class="btn small" data-font="xlarge" aria-label="Extra große Schriftgröße" aria-pressed="${state.font==='xlarge'}">A++</button><button class="btn small" data-action="fullscreen">⛶ Lesen</button><button class="btn small" data-action="print">Drucken</button></div><article class="reader-body" id="readerBody">${paragraphs}</article><div class="reader-note"><b>Aus dieser Episode:</b> ${e.cast.map(n=>`<button class="subtle-link" data-character="${esc(n)}">${esc(n)}</button>`).join(' · ')}<br><span style="display:block;margin-top:6px">Schauplatz: ${esc(e.place)}. Diese Geschichte ist Teil des fortlaufenden Serienkanons.</span></div><div class="reader-end"><span id="readStatus">${progress>=95?'Episode gelesen':`Lesefortschritt: ${Math.round(progress)}%`}</span><div class="reader-nav"><button class="btn small" data-episode="${Math.max(1,e.n-1)}" ${e.n===1?'disabled':''}>← Vorherige</button><button class="btn small primary" data-episode="${Math.min(80,e.n+1)}" ${e.n===80?'disabled':''}>Nächste →</button></div></div>${footer()}`}
+function renderReader(){const e=episode(state.ep)||episode(1);const s=season(e.season);const paragraphs=e.text.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');const progress=state.progress[e.n]||0;const saved=state.bookmarks.includes(e.n);return `<div class="reader-progress" role="progressbar" aria-label="Lesefortschritt in dieser Episode" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(progress)}"><i id="readerProgressBar" style="width:${progress}%"></i></div><div class="reader-crumb"><button data-page="seasons">Staffeln & Episoden</button> / <button data-season-list="${e.season}">Staffel ${e.season}</button> / Episode ${String(e.n).padStart(2,'0')}</div><div class="reader-head"><div class="eyebrow">Staffel ${e.season} · Episode ${String(e.n).padStart(2,'0')} · ${esc(e.genre)}</div><h1>${esc(e.title)}</h1><div class="reader-deck">${esc(e.deck)}</div><div class="reader-meta"><span class="meta-pill">${esc(e.place)}</span><span class="meta-pill">${e.cast.length} Figuren im Mittelpunkt</span><span class="meta-pill">${countWords(e.text).toLocaleString('de-DE')} Wörter</span><span class="meta-pill">ca. ${Math.max(1,Math.ceil(countWords(e.text)/190))} Min. Lesezeit</span><span class="meta-pill">${s.title}</span></div></div><section class="tts-panel ai-audio-panel hh-one-button-panel" id="ttsPanel" aria-label="Hörbuch">
+<button class="btn primary hh-play-button" data-action="tts-play" id="ttsPlayBtn" type="button" aria-pressed="false">▶ Abspielen</button>
+<div class="hh-loading" id="ttsLoading" hidden aria-live="polite" aria-atomic="true">
+  <div class="hh-loading-head"><span id="ttsProgressText">Stimme wird vorbereitet …</span><span id="ttsProgressPercent">0%</span></div>
+  <div class="hh-loading-track is-indeterminate" id="ttsProgress" role="progressbar" aria-label="Ladefortschritt der Hörbuchwiedergabe" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ttsProgressBar"></i></div>
+</div>
+<div class="hh-loading-error" id="ttsLoadingError" hidden role="alert"></div>
+<div class="tts-status hh-sr-only" id="ttsStatus" role="status" aria-live="polite" data-state="idle">Bereit.</div>
+<audio id="ttsAudioPlayer" preload="none" aria-label="Hörbuch" hidden></audio>
+</section>
+<div class="reader-toolbar"><button class="btn small" data-action="toc">☷ Inhaltsübersicht</button><button class="btn small" data-action="bookmark-current">${saved?'★ Gespeichert':'☆ Lesezeichen'}</button><span class="tool-label">Schrift</span><button class="btn small" data-font="small" aria-label="Kleine Schriftgröße" aria-pressed="${state.font==='small'}">A−</button><button class="btn small" data-font="normal" aria-label="Normale Schriftgröße" aria-pressed="${state.font==='normal'}">A</button><button class="btn small" data-font="large" aria-label="Große Schriftgröße" aria-pressed="${state.font==='large'}">A+</button><button class="btn small" data-font="xlarge" aria-label="Extra große Schriftgröße" aria-pressed="${state.font==='xlarge'}">A++</button><button class="btn small" data-action="fullscreen">⛶ Lesen</button><button class="btn small" data-action="print">Drucken</button></div><article class="reader-body" id="readerBody">${paragraphs}</article><div class="reader-note"><b>Aus dieser Episode:</b> ${e.cast.map(n=>`<button class="subtle-link" data-character="${esc(n)}">${esc(n)}</button>`).join(' · ')}<br><span style="display:block;margin-top:6px">Schauplatz: ${esc(e.place)}. Diese Geschichte ist Teil des fortlaufenden Serienkanons.</span></div><div class="reader-end"><span id="readStatus">${progress>=95?'Episode gelesen':`Lesefortschritt: ${Math.round(progress)}%`}</span><div class="reader-nav"><button class="btn small" data-episode="${Math.max(1,e.n-1)}" ${e.n===1?'disabled':''}>← Vorherige</button><button class="btn small primary" data-episode="${Math.min(80,e.n+1)}" ${e.n===80?'disabled':''}>Nächste →</button></div></div>${footer()}`}
 function portraitMarkup(c,idx){return c.name==='Horst Wurzel'?`<img src="${HORST_PORTRAIT}" alt="Fotoporträt von Horst Wurzel" loading="eager" decoding="async">`:avatarSvg(c.name,idx)}
 function characterCard(c){if(!c)return '';const idx=DATA.characters.indexOf(c);return `<article class="char-card" data-character="${esc(c.name)}" tabindex="0" role="button" aria-label="Figurenporträt von ${esc(c.name)} öffnen"><div class="portrait">${portraitMarkup(c,idx)}</div><h3>${esc(c.name)}</h3><div class="role">${esc(c.role)}</div><p>${esc(c.traits.slice(0,130))}${c.traits.length>130?'…':''}</p></article>`}
 function renderCharacters(){return `<div class="eyebrow">Das Figurenverzeichnis</div><h1 class="page-title">Die Menschen von Eichenbrück</h1><p class="page-lede">Eine gute Geschichte braucht Menschen mit eigenen Wünschen, Widersprüchen und Stimmen. Das Figurenverzeichnis bündelt ihre Biografien und zeigt, in welchen Episoden sie auftreten.</p><div class="filterbar"><input id="characterFilter" type="search" placeholder="Figur, Beruf oder Eigenschaft suchen …"></div><div class="grid char-grid" id="characterGrid">${DATA.characters.map(characterCard).join('')}</div><div class="section-head"><div><h2>Das Beziehungsgeflecht</h2><p>Die wichtigsten Verbindungen im Serienuniversum.</p></div></div><div class="relationship-box"><b>Harald ↔ Horst:</b> Nachbarschaft, Konkurrenz, Loyalität und eine über Jahrzehnte gewachsene Freundschaft.<br><b>Harald ↔ Ilse:</b> Vertrauen und praktische gegenseitige Hilfe.<br><b>Harald ↔ Maja:</b> Sachliche Reibung, aus der Respekt und Zusammenarbeit entstehen.<br><b>Horst ↔ Leni:</b> Geschwisterliche Direktheit; Leni kennt Horsts Geschichten und ihre Lücken.<br><b>Paula ↔ Güterschuppen:</b> Familiäre Erinnerung und historische Verantwortung.<br><b>Die Stadt ↔ das Projekt:</b> Viele Einzelinteressen werden langsam zu einer gemeinsamen Aufgabe.</div>${footer()}`}
@@ -253,7 +365,7 @@ function renderCharacterDetail(name){const c=DATA.characters.find(x=>x.name===na
 function renderChronicle(){return `<div class="eyebrow">Serienkanon</div><h1 class="page-title">Die Chronik von Eichenbrück</h1><p class="page-lede">Die Vorgeschichte ist verbindlicher Teil des Universums. Die neuen Episoden knüpfen daran an und verändern bereits etablierte Ereignisse nicht nachträglich.</p><div class="chronicle">${DATA.chronicle.map(x=>`<div class="chron-item"><div class="chron-period">${esc(x[0])}</div><h3>${esc(x[1])}</h3><p>${esc(x[2])}</p></div>`).join('')}</div>${footer()}`}
 function renderBookmarks(){const list=DATA.episodes.filter(e=>state.bookmarks.includes(e.n));return `<div class="eyebrow">Deine persönliche Sammlung</div><h1 class="page-title">Meine Lesezeichen</h1><p class="page-lede">Hier findest du die Episoden, die du für später markiert hast. Die Auswahl wird lokal auf diesem Gerät gespeichert.</p>${list.length?`<div class="episode-list">${list.map(episodeRow).join('')}</div>`:'<div class="empty">Noch keine Lesezeichen gesetzt.<br>Markiere im Episodenleser eine Geschichte mit ☆, um sie hier wiederzufinden.</div>'}${footer()}`}
 function footer(){return `<footer class="footnote"><span>HARALD HUMMELKRAUSE · CHRONIKEN EINES GANZ GEWÖHNLICHEN WAHNSINNS</span><span>Gesamtausgabe · Episoden 01–80 · Offline-Leseausgabe</span></footer>`}
-function render(){const view=$('#view');if(state.page==='home')view.innerHTML=renderHome();else if(state.page==='seasons')view.innerHTML=renderSeasons();else if(state.page==='reader')view.innerHTML=renderReader();else if(state.page==='characters')view.innerHTML=renderCharacters();else if(state.page==='character')view.innerHTML=renderCharacterDetail(state.character);else if(state.page==='chronicle')view.innerHTML=renderChronicle();else if(state.page==='bookmarks')view.innerHTML=renderBookmarks();else view.innerHTML=renderHome();$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===state.page));if(state.page==='reader')updateReaderProgress();}
+function render(){const view=$('#view');if(state.page==='home')view.innerHTML=renderHome();else if(state.page==='seasons')view.innerHTML=renderSeasons();else if(state.page==='reader')view.innerHTML=renderReader();else if(state.page==='characters')view.innerHTML=renderCharacters();else if(state.page==='character')view.innerHTML=renderCharacterDetail(state.character);else if(state.page==='chronicle')view.innerHTML=renderChronicle();else if(state.page==='bookmarks')view.innerHTML=renderBookmarks();else view.innerHTML=renderHome();$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===state.page));if(state.page==='reader'){updateReaderProgress();ttsInit();}}
 function toggleBookmark(n){n=Number(n);if(state.bookmarks.includes(n)){state.bookmarks=state.bookmarks.filter(x=>x!==n);toast('Lesezeichen entfernt')}else{state.bookmarks.push(n);toast('Episode gespeichert')}safeStore.set('bookmarks',state.bookmarks);render()}
 function setFont(v){if(!fontSizes[v])return;state.font=v;document.documentElement.style.setProperty('--reading',fontSizes[v]);safeStore.set('font',v);$$('[data-font]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.font===v)));toast('Schriftgröße: '+({small:'klein',normal:'normal',large:'groß',xlarge:'extra groß'}[v]));}
 function toggleTheme(){state.theme=state.theme==='light'?'dark':'light';document.documentElement.dataset.theme=state.theme;safeStore.set('theme',state.theme);$$('[data-action=theme]').forEach(b=>{b.setAttribute('aria-pressed',String(state.theme==='dark'));b.setAttribute('aria-label',state.theme==='dark'?'Hellmodus aktivieren':'Dunkelmodus aktivieren')});toast(state.theme==='dark'?'Dunkelmodus aktiviert':'Hellmodus aktiviert')}
@@ -267,22 +379,425 @@ function continueReading(){const n=state.last||1;openEpisode(n)}
 function randomEpisode(){const n=DATA.episodes[Math.floor(Math.random()*DATA.episodes.length)].n;openEpisode(n);toast('Zufällige Episode geöffnet')}
 function showSearchPage(){setPage('seasons');const input=$('#episodeFilter');if(input){input.value=$('#globalSearch').value;input.dispatchEvent(new Event('input'))}}
 
+
+// ---- Natürliches KI-Hörbuchstudio: Gemini 3.8 Flash TTS ----
+// API key is never embedded in the HTML. It is session-only unless the user explicitly opts in to local storage.
+const TTS_MODEL_DEFAULT='gemini-3.8-flash-tts';
+const TTS_EMBEDDED_API_KEY='AQ.Ab8RN6IhMKblZiROZwksz2uJDRD_cV3o_cnUSf4X7o1aJSkKDw'; // Vom Nutzer bereitgestellter persönlicher Schlüssel; nur in der privaten lokalen Ausgabe verwenden.
+const TTS_KEY_SESSION='hh_gemini_api_key_session';
+const TTS_KEY_LOCAL='hh_gemini_api_key_local';
+const TTS_PREFS_KEY='hh_ai_tts_preferences';
+const TTS_NAME_MAP={};
+DATA.characters.forEach(c=>{
+  const clean=c.name.replace(/^Dr\.\s*/,'').replace(/\s*[„“].*$/,'');
+  const first=clean.split(/\s+/)[0];
+  if(first)TTS_NAME_MAP[first.toLocaleLowerCase('de-DE')]=c.name;
+});
+TTS_NAME_MAP['willi']='Wilhelm „Willi“ Döring';
+const TTS_FEMALE_NAMES=new Set(['ilse','maja','gisela','nadine','vera','anja','leni','paula','ria']);
+const TTS_SPEECH_VERBS='(?:sagte|fragte|antwortete|erwiderte|meinte|rief|murmelte|flüsterte|erklärte|entgegnete|bemerkte|ergänzte|versicherte|klagte|bat|forderte|bestätigte|wiederholte|fügte hinzu|gab zurück|hakte nach|wandte ein|fragte zurück|stellte fest|warf ein|nickte|lachte|seufzte)';
+const TTS_ROLE_VOICE_IDS={narrator:'ttsVoiceNarrator',harald:'ttsVoiceHarald',horst:'ttsVoiceHorst',male:'ttsVoiceMale',female:'ttsVoiceFemale'};
+const TTS_ALL_VOICES=[
+  ['Zephyr','hell'],['Puck','lebhaft'],['Charon','sachlich'],['Kore','bestimmt'],['Fenrir','temperamentvoll'],['Leda','jung'],['Orus','markant'],['Aoede','leicht'],['Callirrhoe','gelassen'],['Autonoe','hell'],['Enceladus','luftig'],['Iapetus','klar'],['Umbriel','ausgeglichen'],['Algieba','weich'],['Despina','weich'],['Erinome','klar'],['Algenib','rau'],['Rasalgethi','informativ'],['Laomedeia','lebendig'],['Achernar','sanft'],['Alnilam','fest'],['Schedar','ruhig'],['Gacrux','reif'],['Pulcherrima','nachdrücklich'],['Achird','freundlich'],['Zubenelgenubi','lässig'],['Vindemiatrix','sanft'],['Sadachbia','lebhaft'],['Sadaltager','wissend'],['Sulafat','warm']
+];
+const TTS_PERSON_VOICE_DEFAULTS={ilse:'Vindemiatrix',maja:'Erinome',timo:'Charon',rolf:'Gacrux',uwe:'Orus',gisela:'Laomedeia',finn:'Zephyr',nadine:'Despina',benno:'Iapetus',egon:'Rasalgethi',vera:'Kore',willi:'Algieba',wilhelm:'Algieba',anja:'Aoede',leni:'Autonoe',paula:'Achernar',ria:'Callirrhoe'};
+function ttsPersonSlug(name){return (name||'figur').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+function ttsRenderCharacterVoiceSettings(){
+  return DATA.characters.filter(c=>!['Harald Hummelkrause','Horst Wurzel'].includes(c.name)).map(c=>{
+    const first=Object.entries(TTS_NAME_MAP).find(([,full])=>full===c.name)?.[0]||ttsPersonSlug(c.name).split('-')[0];
+    const selected=ttsPrefs['person:'+c.name]||TTS_PERSON_VOICE_DEFAULTS[first]||'Callirrhoe';
+    const opts=TTS_ALL_VOICES.map(([name,quality])=>`<option value="${name}" ${name===selected?'selected':''}>${name} · ${quality}</option>`).join('');
+    return `<label class="ai-person-voice-field">${esc(c.name)}<select id="ttsPersonVoice-${ttsPersonSlug(c.name)}" data-person-voice="${esc(c.name)}">${opts}</select><input id="ttsPersonCustomVoice-${ttsPersonSlug(c.name)}" data-person-custom-voice="${esc(c.name)}" placeholder="Eigene Voice-ID (optional)" spellcheck="false" autocomplete="off"><small>${esc(c.voice||'Individuelle Figurenstimme')}</small></label>`;
+  }).join('');
+}
+let ttsPrefs=safeStore.get(TTS_PREFS_KEY,{})||{};
+let ttsRunId=0;
+let ttsIsRunning=false;
+let ttsIsPaused=false;
+let ttsSegments=[];
+let ttsCurrentIndex=0;
+let ttsCurrentUrl=null;
+let ttsAudioBlobs=[];
+let ttsAbortControllers=new Set();
+let ttsPrefetchPromises=new Map();
+let ttsRunEpisode=0;
+let ttsRunMode='episode';
+let ttsPreviewQueue=[];
+let ttsDbPromise=null;
+let ttsMemoryCache=new Map();
+let ttsLastWavBlob=null;
+let ttsCurrentGeneratingIndex=-1;
+let ttsPendingStart=false;
+
+function ttsStatus(message,kind='idle'){
+  const el=$('#ttsStatus');if(el){el.textContent=message;el.dataset.state=kind;}
+  const panel=$('#ttsPanel'),loading=$('#ttsLoading'),errorBox=$('#ttsLoadingError'),label=$('#ttsProgressText'),track=$('#ttsProgress');
+  if(panel)panel.dataset.audioState=kind;
+  const showProgress=['loading','playing','buffering'].includes(kind);
+  if(loading)loading.hidden=!showProgress;
+  if(errorBox){errorBox.hidden=kind!=='error';errorBox.textContent=kind==='error'?message:'';}
+  if(label&&showProgress){
+    if(kind==='loading')label.textContent='Die natürliche Stimme wird vorbereitet …';
+    else if(kind==='buffering')label.textContent='Der nächste Abschnitt wird vorbereitet …';
+    else label.textContent='Die Geschichte wird vorgelesen …';
+  }
+  if(track){track.classList.toggle('is-indeterminate',kind==='loading');if(kind==='loading'){track.removeAttribute('aria-valuenow');track.setAttribute('aria-valuetext','Stimme wird vorbereitet');}}
+  const percent=$('#ttsProgressPercent');if(percent&&kind==='loading')percent.textContent='…';
+  const button=$('#ttsPlayBtn');
+  if(button&&kind==='error'){button.title=message;button.dataset.error='true';button.textContent='↻ Erneut versuchen';button.setAttribute('aria-label','Erneut versuchen. '+message);}
+  if(button&&kind!=='error'){button.removeAttribute('title');delete button.dataset.error;}
+}
+function ttsRefreshButtons(){
+  const play=$('#ttsPlayBtn');
+  if(play){
+    play.textContent=ttsIsRunning?'■ Stoppen':'▶ Abspielen';
+    play.setAttribute('aria-pressed',String(ttsIsRunning));
+    play.setAttribute('aria-label',ttsIsRunning?'Hörbuchwiedergabe stoppen':'Aktuelle Episode abspielen');
+    play.disabled=false;
+  }
+}
+function ttsSetProgress(done,total,label=''){
+  const pct=total?Math.max(0,Math.min(100,Math.round(done/total*100))):0;
+  const bar=$('#ttsProgressBar'),track=$('#ttsProgress'),txt=$('#ttsProgressText'),pc=$('#ttsProgressPercent');
+  if(bar)bar.style.width=pct+'%';
+  if(track){track.classList.remove('is-indeterminate');track.setAttribute('aria-valuenow',String(pct));track.setAttribute('aria-valuetext',label||`${pct}% des Hörbuchs`);}
+  if(txt)txt.textContent=label||`${done} von ${total} Audioteilen gehört`;
+  if(pc)pc.textContent=pct+'%';
+}
+function ttsUpdatePlaybackProgress(index,player){
+  if(!player||!Number.isFinite(player.duration)||player.duration<=0||!ttsSegments.length)return;
+  const fraction=Math.max(0,Math.min(1,player.currentTime/player.duration));
+  const pct=Math.max(0,Math.min(100,Math.round(((index+fraction)/ttsSegments.length)*100)));
+  const bar=$('#ttsProgressBar'),track=$('#ttsProgress'),pc=$('#ttsProgressPercent'),txt=$('#ttsProgressText');
+  if(bar)bar.style.width=pct+'%';
+  if(track){track.classList.remove('is-indeterminate');track.setAttribute('aria-valuenow',String(pct));track.setAttribute('aria-valuetext',`${pct}% des Hörbuchs`);}
+  if(pc)pc.textContent=pct+'%';
+  if(txt)txt.textContent=`Wird vorgelesen · Abschnitt ${index+1} von ${ttsSegments.length}`;
+}
+function ttsGetApiKey(){
+  return TTS_EMBEDDED_API_KEY;
+}
+function ttsInit(){
+  const keyInput=$('#ttsApiKey');if(keyInput){let key='';try{key=sessionStorage.getItem(TTS_KEY_SESSION)||localStorage.getItem(TTS_KEY_LOCAL)||''}catch{};keyInput.value=key}
+  const remembered=(()=>{try{return !!localStorage.getItem(TTS_KEY_LOCAL)}catch{return false}})();
+  const remember=$('#ttsRememberKey');if(remember)remember.checked=remembered;
+  const ids=['ttsVoiceNarrator','ttsVoiceHarald','ttsVoiceHorst','ttsVoiceMale','ttsVoiceFemale','ttsModel','ttsPace'];
+  ids.forEach(id=>{const el=$('#'+id);if(el&&ttsPrefs[id]&&[...el.options].some(o=>o.value===ttsPrefs[id]))el.value=ttsPrefs[id]});
+  ['ttsCharacterVoices','ttsExpressive'].forEach(id=>{const el=$('#'+id);if(el&&ttsPrefs[id]!==undefined)el.checked=!!ttsPrefs[id]});
+  ['ttsCustomVoiceNarrator','ttsCustomVoiceHarald','ttsCustomVoiceHorst'].forEach(id=>{const el=$('#'+id);if(el&&ttsPrefs[id])el.value=ttsPrefs[id]});
+  $$('[data-person-voice]').forEach(el=>{const value=ttsPrefs['person:'+el.dataset.personVoice];if(value&&[...el.options].some(o=>o.value===value))el.value=value});
+  $$('[data-person-custom-voice]').forEach(el=>{const value=ttsPrefs['person-custom:'+el.dataset.personCustomVoice];if(value)el.value=value});
+  ttsRefreshButtons();ttsUpdateCacheInfo();
+}
+function ttsSaveKey(){
+  const input=$('#ttsApiKey'),key=(input?.value||'').trim();
+  if(!key){ttsStatus('Bitte zuerst einen Gemini-API-Schlüssel einfügen.','error');return}
+  const remember=$('#ttsRememberKey')?.checked===true;
+  try{
+    sessionStorage.setItem(TTS_KEY_SESSION,key);
+    if(remember)localStorage.setItem(TTS_KEY_LOCAL,key);else localStorage.removeItem(TTS_KEY_LOCAL);
+  }catch(err){ttsStatus('Der Schlüssel kann in diesem Browser nicht gespeichert werden. Er bleibt im aktuellen Feld verfügbar.','error');return}
+  ttsStatus(remember?'API-Schlüssel auf diesem Gerät gespeichert.':'API-Schlüssel für diese Sitzung übernommen.','idle');
+}
+function ttsClearKey(){
+  const input=$('#ttsApiKey');if(input)input.value='';
+  try{sessionStorage.removeItem(TTS_KEY_SESSION);localStorage.removeItem(TTS_KEY_LOCAL)}catch{}
+  ttsStatus('API-Schlüssel aus diesem Browser entfernt.','idle');
+}
+function ttsSaveSettings(){
+  ['ttsVoiceNarrator','ttsVoiceHarald','ttsVoiceHorst','ttsVoiceMale','ttsVoiceFemale','ttsModel','ttsPace'].forEach(id=>{const el=$('#'+id);if(el)ttsPrefs[id]=el.value});
+  ['ttsCharacterVoices','ttsExpressive'].forEach(id=>{const el=$('#'+id);if(el)ttsPrefs[id]=!!el.checked});
+  ['ttsCustomVoiceNarrator','ttsCustomVoiceHarald','ttsCustomVoiceHorst'].forEach(id=>{const el=$('#'+id);if(el)ttsPrefs[id]=(el.value||'').trim()});
+  $$('[data-person-voice]').forEach(el=>{ttsPrefs['person:'+el.dataset.personVoice]=el.value});
+  $$('[data-person-custom-voice]').forEach(el=>{ttsPrefs['person-custom:'+el.dataset.personCustomVoice]=(el.value||'').trim()});
+  safeStore.set(TTS_PREFS_KEY,ttsPrefs);ttsStatus('Stimmenauswahl und Inszenierung gespeichert.','idle');
+}
+function ttsSelected(id,fallback){return fallback}
+function ttsVoiceForRole(role,speakerName=''){
+  // Einheitliche, fest definierte Stimmenbesetzung für die gesamte Serie.
+  if(role==='narrator')return 'Sulafat';
+  if(role==='harald')return 'Algenib';
+  if(role==='horst')return 'Achird';
+  if(speakerName){
+    const first=Object.entries(TTS_NAME_MAP).find(([,full])=>full===speakerName)?.[0];
+    if(first&&TTS_PERSON_VOICE_DEFAULTS[first])return TTS_PERSON_VOICE_DEFAULTS[first];
+  }
+  return role==='female'?'Aoede':'Charon';
+}
+function ttsCharacterFromText(textBefore,textAfter,ep){
+  const aliases=Object.keys(TTS_NAME_MAP).filter(k=>k.length>2).sort((a,b)=>b.length-a.length);
+  const alt=aliases.map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');
+  const cast=new Set(ep.cast||[]);
+  const suffix=(textAfter||'').slice(0,180).split('„')[0];
+  const afterRe=new RegExp('\\b'+TTS_SPEECH_VERBS+'\\s+(?:(?:der|die|das|Herr|Frau|Doktor)\\s+)?('+alt+')\\b','iu');
+  let m=suffix.match(afterRe);
+  if(m){const first=m[1].toLocaleLowerCase('de-DE');const name=TTS_NAME_MAP[first];if(name&&cast.has(name))return {name,first}}
+  const prefix=(textBefore||'').slice(-150);
+  const beforePatterns=[
+    new RegExp('(?:^|[.!?;:]\\s*)('+alt+')\\s+'+TTS_SPEECH_VERBS+'\\s*[:—-]?\\s*$','iu'),
+    new RegExp('\\b'+TTS_SPEECH_VERBS+'\\s+(?:(?:der|die|das|Herr|Frau|Doktor)\\s+)?('+alt+')\\s*[:—-]?\\s*$','iu')
+  ];
+  for(const re of beforePatterns){m=prefix.match(re);if(m){const first=m[1].toLocaleLowerCase('de-DE');const name=TTS_NAME_MAP[first];if(name&&cast.has(name))return {name,first}}}
+  const reversed=new RegExp('^\\s*('+alt+')\\s+(?:nickte|lachte|seufzte|rief|murmelte|flüsterte)\\b','iu');
+  m=suffix.match(reversed);if(m){const first=m[1].toLocaleLowerCase('de-DE');const name=TTS_NAME_MAP[first];if(name&&cast.has(name))return {name,first}}
+  return null;
+}
+function ttsNextDialogueSpeaker(last,ep){
+  const candidates=(ep.cast||[]).map(full=>{const found=Object.entries(TTS_NAME_MAP).find(([,name])=>name===full);return found?{first:found[0],name:full}:null}).filter(Boolean);
+  if(!candidates.length)return null;
+  if(last&&(last.first==='harald'||last.first==='horst')){const partner=last.first==='harald'?'horst':'harald';const known=candidates.find(c=>c.first===partner);if(known)return known}
+  // Bei einem größeren Ensemble wird eine Sprecherzuordnung nur vorgenommen,
+  // wenn sie aus dem Text hervorgeht. So bekommt nicht versehentlich die falsche Figur die Stimme.
+  return null;
+}
+function ttsRoleForSpeaker(speaker){if(!speaker)return'narrator';if(speaker.first==='harald')return'harald';if(speaker.first==='horst')return'horst';return TTS_FEMALE_NAMES.has(speaker.first)?'female':'male'}
+function ttsStripAttributionEnd(text){
+  const aliases=Object.keys(TTS_NAME_MAP).filter(k=>k.length>2).sort((a,b)=>b.length-a.length).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');
+  const re=new RegExp('[,;:]?\\s*(?:'+TTS_SPEECH_VERBS+')\\s+(?:(?:der|die|das|Herr|Frau|Doktor)\\s+)?(?:'+aliases+'|er|sie)\\s*[:—-]?\\s*$','iu');
+  return (text||'').replace(re,'').trim();
+}
+function ttsStripAttributionStart(text){
+  const aliases=Object.keys(TTS_NAME_MAP).filter(k=>k.length>2).sort((a,b)=>b.length-a.length).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');
+  const re=new RegExp('^\\s*[,;:]?\\s*(?:'+TTS_SPEECH_VERBS+')\\s+(?:(?:der|die|das|Herr|Frau|Doktor)\\s+)?(?:'+aliases+'|er|sie)\\b[^.!?]*[.!?]?\\s*','iu');
+  return (text||'').replace(re,'').trim();
+}
+function ttsStyle(role,text,speakerName='',delivery=''){
+  const paceText='calm, literary and deliberately paced, with natural conversational rhythm and precise comic timing';
+  const emotion='Use natural breathing, subtle emphasis, genuine question intonation and meaningful pauses. Avoid monotony and avoid an artificial announcer delivery.';
+  const profiles={
+    narrator:`Warm, intimate German audiobook narration by a mature female narrator, clear standard German pronunciation, nuanced phrasing and subtle dry humour; ${paceText}. ${emotion}`,
+    harald:`Natural German dialogue by a man in his late sixties, measured, precise, reserved, quietly warm and dryly humorous; ${paceText}. ${emotion}`,
+    horst:`Natural German dialogue by a sociable man in his mid-sixties, warm, slightly rough, confident and conversational, with genuine humour; ${paceText}. ${emotion}`,
+    female:`Natural, mature German female dialogue, clear, individual and conversational; ${paceText}. ${emotion}`,
+    male:`Natural, mature German male dialogue, clear, individual and conversational; ${paceText}. ${emotion}`
+  };
+  const character=DATA.characters.find(c=>c.name===speakerName);
+  const individual=character?.voice?` Character's speaking manner: ${character.voice}. Keep this natural and consistent.`:'';
+  const cue=delivery?` ${delivery}.`:'';
+  return (profiles[role]||profiles.narrator)+individual+cue;
+}
+
+function ttsDeliveryFromAttribution(context){
+  const s=(context||'').toLocaleLowerCase('de-DE');
+  if(/flüsterte|hauchte|raunte/.test(s))return 'Whisper softly and intimately, with restrained volume';
+  if(/murmelte|brummte/.test(s))return 'Mutter in a low, slightly grumbling tone';
+  if(/schrie|brüllte/.test(s))return 'Use a raised, urgent voice without exaggeration';
+  if(/rief/.test(s))return 'Call out with extra energy and clear projection';
+  if(/lachte|kicherte|schmunzelte/.test(s))return 'Let a light, audible smile and gentle amusement colour the line';
+  if(/seufzte/.test(s))return 'Begin with a soft sigh and a slightly weary tone';
+  if(/stockte|zitterte|stammelte/.test(s))return 'Sound hesitant and slightly uncertain, but remain intelligible';
+  if(/fragte|hakte nach/.test(s))return 'Use natural, clearly shaped question intonation';
+  if(/entgegnete|erwiderte|gab zurück|wandte ein/.test(s))return 'Deliver this as a direct, naturally timed reply';
+  if(/erklärte|stellte fest|bemerkte/.test(s))return 'Use a clear, thoughtful explanatory delivery';
+  return '';
+}
+function ttsPushSegment(out,text,role='narrator',speaker='Erzählerin',delivery=''){
+  const clean=(text||'').replace(/\s+/g,' ').trim();if(!clean)return;
+  const voice=ttsVoiceForRole(role,speaker);const style=ttsStyle(role,clean,speaker,delivery);
+  const last=out[out.length-1];
+  if(last&&last.role===role&&last.voice===voice&&last.delivery===delivery&&last.text.length+clean.length+1<=2400){last.text+=' '+clean;last.style=ttsStyle(role,last.text,speaker,delivery);return}
+  // Split long blocks on sentence boundaries, preserving the original words.
+  const sentences=clean.match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g)||[clean];let chunk='';
+  for(const sent0 of sentences){const sent=sent0.trim();if(!sent)continue;if(chunk&&chunk.length+sent.length+1>1900){out.push({text:chunk,role,voice,style,speaker,delivery});chunk=''}if(sent.length>2200){if(chunk){out.push({text:chunk,role,voice,style,speaker});chunk=''}for(let i=0;i<sent.length;i+=1800)out.push({text:sent.slice(i,i+1800),role,voice,style,speaker,delivery})}else chunk+=(chunk?' ':'')+sent}
+  if(chunk)out.push({text:chunk,role,voice,style,speaker,delivery});
+}
+function ttsBuildSegments(ep){
+  const out=[];
+  ttsPushSegment(out,`Staffel ${ep.season}. Episode ${ep.n}. ${ep.title}. <long pause>`,'narrator','Erzählerin');
+  const useCharacters=$('#ttsCharacterVoices')?.checked!==false;
+  const paragraphs=ep.text.split(/\n\s*\n/);let lastDialogueSpeaker=null,dialogueContext=false;
+  for(const paragraph of paragraphs){
+    let firstTurnInParagraph=true;
+    const addTurn=(text,role,speaker,delivery='')=>{
+      if(!text)return;
+      // Explicit pause tags survive into Gemini's audio generation and retain
+      // the essay-like rhythm when the source text changes paragraphs.
+      const paced=firstTurnInParagraph&&out.length?'<short pause> '+text:text;
+      firstTurnInParagraph=false;
+      ttsPushSegment(out,paced,role,speaker,delivery);
+    };
+    const re=/„([^“]+)“/g;let cursor=0,m,foundQuote=false;
+    while((m=re.exec(paragraph))!==null){
+      foundQuote=true;
+      const rawBefore=paragraph.slice(cursor,m.index);
+      const speaker=useCharacters?ttsCharacterFromText(rawBefore,paragraph.slice(re.lastIndex),ep):null;
+      let lead=ttsStripAttributionEnd(rawBefore);
+      if(lead)addTurn(lead,'narrator','Erzählerin');
+      let who=speaker;
+      if(useCharacters&&!who&&dialogueContext&&lastDialogueSpeaker)who=ttsNextDialogueSpeaker(lastDialogueSpeaker,ep);
+      const role=who?ttsRoleForSpeaker(who):'narrator';
+      const attributionContext=rawBefore+' '+paragraph.slice(re.lastIndex,re.lastIndex+140);
+      const delivery=ttsDeliveryFromAttribution(attributionContext);
+      addTurn(m[1],role,who?.name||'Erzählerin',delivery);
+      if(who)lastDialogueSpeaker=who;
+      cursor=re.lastIndex;
+    }
+    let tail=paragraph.slice(cursor);
+    if(foundQuote)tail=ttsStripAttributionStart(tail);
+    if(tail)addTurn(tail,'narrator','Erzählerin');
+    if(foundQuote)dialogueContext=true;else if(paragraph.length>105){dialogueContext=false;lastDialogueSpeaker=null}
+  }
+  return out;
+}
+function ttsHash(text){let h=2166136261;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
+function ttsCacheKey(segment,episodeNo,index){const model=ttsSelected('ttsModel',TTS_MODEL_DEFAULT);return [model,episodeNo,index,segment.role,segment.voice,ttsHash(segment.text+'|'+segment.style)].join(':')}
+function ttsOpenDB(){
+  if(ttsDbPromise)return ttsDbPromise;
+  ttsDbPromise=new Promise(resolve=>{
+    if(!('indexedDB'in window)){resolve(null);return}
+    let req;
+    try{req=indexedDB.open('harald-hummelkrause-audio-v1',1)}catch(err){resolve(null);return}
+    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('audio'))db.createObjectStore('audio',{keyPath:'key'})};
+    req.onsuccess=()=>resolve(req.result);req.onerror=()=>resolve(null);req.onblocked=()=>resolve(null);
+  });return ttsDbPromise;
+}
+async function ttsCacheGet(key){
+  if(ttsMemoryCache.has(key))return ttsMemoryCache.get(key);
+  const db=await ttsOpenDB();if(!db)return null;
+  return new Promise(resolve=>{try{const tx=db.transaction('audio','readonly');const req=tx.objectStore('audio').get(key);req.onsuccess=()=>{const blob=req.result?.blob||null;if(blob)ttsMemoryCache.set(key,blob);resolve(blob)};req.onerror=()=>resolve(null)}catch{resolve(null)}});
+}
+async function ttsCachePut(key,blob){
+  ttsMemoryCache.set(key,blob);const db=await ttsOpenDB();if(!db)return;
+  await new Promise(resolve=>{try{const tx=db.transaction('audio','readwrite');tx.objectStore('audio').put({key,blob,size:blob.size,created:Date.now()});tx.oncomplete=()=>resolve();tx.onerror=()=>resolve();tx.onabort=()=>resolve()}catch{resolve()}});
+  ttsUpdateCacheInfo();
+}
+async function ttsUpdateCacheInfo(){
+  const el=$('#ttsCacheInfo');if(!el)return;const db=await ttsOpenDB();if(!db){el.textContent='Dieser Browser stellt keinen dauerhaften Audio-Speicher bereit. Die Wiedergabe funktioniert während der Sitzung.';return}
+  try{const total=await new Promise(resolve=>{const tx=db.transaction('audio','readonly');const req=tx.objectStore('audio').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>resolve([])});const bytes=total.reduce((n,x)=>n+(x.size||x.blob?.size||0),0);el.textContent=total.length?`${total.length} Audioabschnitte lokal gespeichert · ${ (bytes/1024/1024).toFixed(1).replace('.',',')} MB. Gespeicherte Abschnitte lassen sich ohne erneute API-Anfrage abspielen.`:'Noch keine Audioabschnitte gespeichert. Nach der ersten Erzeugung bleiben sie lokal im Browser verfügbar.'}catch{el.textContent='Lokaler Audio-Speicher ist bereit.'}
+}
+async function ttsClearCache(){
+  ttsStop(false);const db=await ttsOpenDB();ttsMemoryCache.clear();ttsLastWavBlob=null;ttsAudioBlobs=[];
+  if(db)await new Promise(resolve=>{try{const tx=db.transaction('audio','readwrite');tx.objectStore('audio').clear();tx.oncomplete=resolve;tx.onerror=resolve;tx.onabort=resolve}catch{resolve()}});
+  ttsRefreshButtons();ttsUpdateCacheInfo();ttsStatus('Der lokale Hörbuchcache wurde geleert.','idle');
+}
+function ttsDecodeBase64(base64){const binary=atob(base64);const out=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)out[i]=binary.charCodeAt(i);return out}
+function ttsExtractAudio(json){
+  if(json?.output_audio?.data)return json.output_audio.data;
+  if(Array.isArray(json?.steps))for(let i=json.steps.length-1;i>=0;i--){const step=json.steps[i];for(const part of (step.content||[])){if((part.type==='audio'||part.mime_type?.startsWith('audio/')||part.mimeType?.startsWith('audio/'))&&part.data)return part.data}}
+  if(Array.isArray(json?.candidates))for(const c of json.candidates){for(const p of (c.content?.parts||[])){const d=p.inlineData?.data||p.inline_data?.data;if(d)return d}}
+  return null;
+}
+async function ttsGenerateSegment(segment,index,runId,preview=false){
+  const key=ttsGetApiKey();if(!key)throw new Error('Bitte füge im Hörbuchstudio einen Gemini-API-Schlüssel ein.');
+  const model=ttsSelected('ttsModel',TTS_MODEL_DEFAULT);
+  const body={model,input:[{type:'user_input',content:[{type:'text',text:segment.text,annotations:[{type:'speech_metadata',style:segment.style}]}]}],response_format:{type:'audio'},generation_config:{speech_config:[{voice:segment.voice}]}};
+  const controller=new AbortController();ttsAbortControllers.add(controller);ttsCurrentGeneratingIndex=index;
+  let response;
+  try{
+    response=await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body),signal:controller.signal});
+  }catch(err){if(err.name==='AbortError')throw err;throw new Error('Verbindung zur Sprach-API fehlgeschlagen. Prüfe Internetverbindung und Browserfreigabe. Bei file:// kann ein lokaler Webserver nötig sein. Details: '+err.message)}finally{ttsAbortControllers.delete(controller)}
+  let json={};try{json=await response.json()}catch{}
+  if(!response.ok){const msg=json?.error?.message||json?.message||`HTTP ${response.status}`;if(response.status===400)throw new Error('Die Sprach-API hat die Anfrage abgelehnt: '+msg);if(response.status===401||response.status===403)throw new Error('API-Schlüssel ungültig oder Berechtigung fehlt: '+msg);if(response.status===429)throw new Error('Das kostenlose API-Kontingent oder ein Ratenlimit wurde erreicht. Bitte später erneut versuchen. '+msg);throw new Error('Sprach-API: '+msg)}
+  const data=ttsExtractAudio(json);if(!data)throw new Error('Die API hat keine WAV-Audiodaten zurückgegeben. Bitte erneut versuchen.');
+  const bytes=ttsDecodeBase64(data);if(bytes.length<44||String.fromCharCode(...bytes.slice(0,4))!=='RIFF')throw new Error('Die zurückgegebenen Audiodaten sind keine gültige WAV-Datei.');
+  return new Blob([bytes],{type:'audio/wav'});
+}
+async function ttsEnsureBlob(index,runId){
+  const segment=ttsSegments[index];if(!segment)throw new Error('Audioabschnitt nicht gefunden.');
+  const key=ttsCacheKey(segment,ttsRunEpisode,index);let blob=await ttsCacheGet(key);if(blob){ttsAudioBlobs[index]=blob;return blob}
+  if(!ttsIsRunning||runId!==ttsRunId)throw new DOMException('Abgebrochen','AbortError');
+  const activePlayer=$('#ttsAudioPlayer');
+  const isPrefetch=!!(activePlayer&&!activePlayer.paused&&!activePlayer.ended&&index>ttsCurrentIndex);
+  ttsStatus(isPrefetch?`Bereite Abschnitt ${index+1}/${ttsSegments.length} · ${segment.speaker||'Erzählerin'} vor …`:`Erzeuge die Stimme · Abschnitt ${index+1}/${ttsSegments.length} …`,isPrefetch?'buffering':'loading');
+  blob=await ttsGenerateSegment(segment,index,runId,ttsRunMode==='preview');
+  if(!ttsIsRunning||runId!==ttsRunId)throw new DOMException('Abgebrochen','AbortError');
+  await ttsCachePut(key,blob);ttsAudioBlobs[index]=blob;return blob;
+}
+function ttsProgressLabel(){return `Audioteil ${Math.min(ttsCurrentIndex+1,ttsSegments.length)} von ${ttsSegments.length}`}
+async function ttsPlayNext(runId){
+  if(!ttsIsRunning||runId!==ttsRunId||ttsIsPaused)return;
+  if(ttsCurrentIndex>=ttsSegments.length){await ttsComplete(runId);return}
+  const index=ttsCurrentIndex;let blob;
+  try{blob=await (ttsPrefetchPromises.get(index)||ttsEnsureBlob(index,runId));ttsPrefetchPromises.delete(index)}catch(err){if(err.name==='AbortError')return;ttsIsRunning=false;ttsIsPaused=false;ttsRefreshButtons();ttsStatus(err.message||'Die Audiodatei konnte nicht erzeugt werden.','error');return}
+  if(!ttsIsRunning||runId!==ttsRunId||ttsIsPaused)return;
+  const player=$('#ttsAudioPlayer');if(!player){ttsStop(false);return}
+  if(ttsCurrentUrl)URL.revokeObjectURL(ttsCurrentUrl);ttsCurrentUrl=URL.createObjectURL(blob);player.src=ttsCurrentUrl;player.currentTime=0;
+  const seg=ttsSegments[index];
+  ttsStatus(`Wiedergabe · ${seg.speaker||'Erzählerin'} · Abschnitt ${index+1}/${ttsSegments.length}`,'playing');
+  ttsUpdatePlaybackProgress(index,player);
+  player.ontimeupdate=()=>{if(runId===ttsRunId&&ttsIsRunning)ttsUpdatePlaybackProgress(index,player)};
+  player.onended=()=>{if(runId!==ttsRunId||!ttsIsRunning)return;ttsCurrentIndex++;ttsSetProgress(ttsCurrentIndex,ttsSegments.length,`Gehört: ${ttsCurrentIndex} von ${ttsSegments.length} Abschnitten`);ttsPlayNext(runId)};
+  player.onerror=()=>{if(runId!==ttsRunId)return;ttsStatus('Der Browser konnte die Audiodatei nicht abspielen.','error');ttsIsRunning=false;ttsRefreshButtons()};
+  try{await player.play()}catch(err){ttsStatus('Die Wiedergabe wurde vom Browser blockiert. Drücke bitte erneut auf Abspielen.','error');ttsIsRunning=false;ttsRefreshButtons();return}
+  // Generate the next chapter segment while the current one plays.
+  const next=index+1;
+  if(next<ttsSegments.length&&!ttsPrefetchPromises.has(next)){
+    const task=ttsEnsureBlob(next,runId).catch(err=>{if(err.name!=='AbortError'&&runId===ttsRunId)ttsStatus('Der nächste Abschnitt wartet auf einen erneuten Versuch: '+err.message,'error');throw err});
+    ttsPrefetchPromises.set(next,task);task.catch(()=>ttsPrefetchPromises.delete(next));
+  }
+  ttsRefreshButtons();
+}
+async function ttsComplete(runId){
+  if(runId!==ttsRunId)return;ttsIsRunning=false;ttsIsPaused=false;
+  ttsStatus('Episode vollständig abgespielt. Die erzeugten Abschnitte bleiben lokal gespeichert.','idle');
+  ttsSetProgress(ttsSegments.length,ttsSegments.length,'Fertig');ttsRefreshButtons();
+}
+function ttsStop(showMessage=true){
+  ttsRunId++;ttsIsRunning=false;ttsIsPaused=false;ttsPendingStart=false;
+  for(const c of ttsAbortControllers){try{c.abort()}catch{}}ttsAbortControllers.clear();ttsPrefetchPromises.clear();
+  const player=$('#ttsAudioPlayer');if(player){player.pause();player.removeAttribute('src');try{player.load()}catch{}player.onended=null;player.onerror=null;player.ontimeupdate=null}
+  if(ttsCurrentUrl){URL.revokeObjectURL(ttsCurrentUrl);ttsCurrentUrl=null}
+  ttsCurrentGeneratingIndex=-1;ttsRefreshButtons();if(showMessage&&$('#ttsStatus'))ttsStatus('Hörbuchwiedergabe gestoppt.','idle');
+}
+function ttsPause(){
+  if(!ttsIsRunning)return;const player=$('#ttsAudioPlayer');
+  if(ttsIsPaused){ttsIsPaused=false;if(player?.src&&player.paused){player.play().catch(()=>{})}else if(!player?.src||player.ended)ttsPlayNext(ttsRunId);ttsStatus('Hörbuch wird fortgesetzt.','playing')}
+  else{ttsIsPaused=true;player?.pause();ttsStatus('Hörbuch pausiert.','idle')}
+  ttsRefreshButtons();
+}
+async function ttsStartSegments(segments,mode='episode',episodeNo=state.ep){
+  if(!segments.length){ttsStatus('Für diese Episode wurde kein lesbarer Text gefunden.','error');return}
+  ttsStop(false);ttsSegments=segments;ttsAudioBlobs=new Array(segments.length);ttsCurrentIndex=0;ttsRunEpisode=episodeNo;ttsRunMode=mode;ttsLastWavBlob=null;ttsIsRunning=true;ttsIsPaused=false;ttsPrefetchPromises.clear();const run=++ttsRunId;
+  ttsSetProgress(0,segments.length,`Stimme wird vorbereitet · ${segments.length} Sprachabschnitte`);ttsRefreshButtons();ttsStatus(`Hörbuch wird vorbereitet · ${segments.length} Sprachabschnitte`,'loading');
+  await ttsPlayNext(run);
+}
+async function ttsPlay(){
+  if(ttsIsRunning){ttsStop(true);return}
+  const ep=episode(state.ep)||episode(1);if(!ep)return;
+  ttsAudioBlobs=[];
+  const segments=ttsBuildSegments(ep);
+  await ttsStartSegments(segments,'episode',ep.n);
+}
+async function ttsPreview(){
+  const key=ttsGetApiKey();if(!key){$('#ttsSettings')?.setAttribute('open','');$('#ttsApiKey')?.focus();ttsStatus('Bitte erst deinen Gemini-API-Schlüssel eintragen.','error');return}
+  if(!$('#ttsConsent')?.checked){$('#ttsSettings')?.setAttribute('open','');ttsStatus('Bitte bestätige zuerst die Übertragung an Google.','error');return}
+  ttsSaveSettings();
+  const sample=[
+    {text:'Über Eichenbrück senkte sich ein stiller Abend. Harald stellte die Teekanne ab und sah zum Nachbargrundstück hinüber.',role:'narrator',speaker:'Erzählerin'},
+    {text:'Horst, ich möchte dich nur darauf hinweisen, dass diese Konstruktion so nicht funktionieren kann.',role:'harald',speaker:'Harald Hummelkrause'},
+    {text:'Harald, ich habe da eine ganz einfache Lösung. Du musst nur ein bisschen Vertrauen in die Technik haben.',role:'horst',speaker:'Horst Wurzel'},
+    {text:'Herr Hummelkrause, ich brauche dafür tatsächlich ein Formular. Und zwar das richtige.',role:'female',speaker:'Maja Rehfeld'}
+  ].map(x=>({...x,voice:ttsVoiceForRole(x.role,x.speaker),style:ttsStyle(x.role,x.text,x.speaker)}));
+  await ttsStartSegments(sample,'preview',state.ep);
+}
+function ttsWavParts(blob){return blob.arrayBuffer().then(buf=>{const u=new Uint8Array(buf);let offset=12,data=null,fmt=null;while(offset+8<=u.length){const id=String.fromCharCode(...u.slice(offset,offset+4));const len=new DataView(buf).getUint32(offset+4,true);const begin=offset+8;if(id==='data')data=u.slice(begin,begin+len);if(id==='fmt ')fmt=u.slice(begin,begin+len);offset=begin+len+(len%2)}if(!data||!fmt)throw new Error('WAV-Abschnitt ohne Datenblock');return {data,fmt}})}
+async function ttsMergeWav(blobs){
+  if(!blobs.length||blobs.some(x=>!x))throw new Error('Audioabschnitte fehlen');
+  const parts=await Promise.all(blobs.map(ttsWavParts));const fmt=parts[0].fmt;const fmtView=new DataView(fmt.buffer,fmt.byteOffset,fmt.byteLength);const channels=fmtView.getUint16(2,true),sampleRate=fmtView.getUint32(4,true),bits=fmtView.getUint16(14,true);const dataSize=parts.reduce((n,x)=>n+x.data.length,0);const header=new ArrayBuffer(44);const v=new DataView(header);const write=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};write(0,'RIFF');v.setUint32(4,36+dataSize,true);write(8,'WAVE');write(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,channels,true);v.setUint32(24,sampleRate,true);v.setUint32(28,sampleRate*channels*bits/8,true);v.setUint16(32,channels*bits/8,true);v.setUint16(34,bits,true);write(36,'data');v.setUint32(40,dataSize,true);return new Blob([header,...parts.map(x=>x.data)],{type:'audio/wav'});
+}
+async function ttsDownload(){
+  if(!ttsLastWavBlob){ttsStatus('Der Download wird freigeschaltet, sobald die gesamte Episode einmal erzeugt wurde.','error');return}
+  const e=episode(ttsRunEpisode)||episode(state.ep);const url=URL.createObjectURL(ttsLastWavBlob);const a=document.createElement('a');a.href=url;a.download=`Harald-Hummelkrause-Episode-${String(e.n).padStart(2,'0')}-${(e.title||'Hoerbuch').replace(/[^\p{L}\p{N}-]+/gu,'-')}.wav`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);ttsStatus('WAV-Datei wurde zum Speichern bereitgestellt.','idle');
+}
+function ttsToggleKeyVisibility(){const el=$('#ttsApiKey');if(!el)return;el.type=el.type==='password'?'text':'password';const b=$('[data-action="tts-key-toggle"]');if(b)b.textContent=el.type==='password'?'Anzeigen':'Verbergen'}
+
 document.addEventListener('click',ev=>{
- const target=ev.target.closest('[data-action],[data-page],[data-episode],[data-season],[data-bookmark],[data-character],[data-font]');if(!target)return;
- if(target.dataset.action){const a=target.dataset.action;if(a==='menu'){const opened=$('#sidebar').classList.toggle('open');$('#sidebarShade').classList.toggle('open',opened);document.body.classList.toggle('menu-open',opened);$('#mobileMenu').setAttribute('aria-expanded',String(opened));return}if(a==='close-menu'){$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');document.body.classList.remove('menu-open');$('#mobileMenu').setAttribute('aria-expanded','false');return}if(a==='theme'){toggleTheme();return}if(a==='random'){randomEpisode();return}if(a==='bookmarks'){setPage('bookmarks');return}if(a==='continue'){continueReading();return}if(a==='first'){openEpisode(1);return}if(a==='toc'){openToc();return}if(a==='close-modal'){closeModal();return}if(a==='bookmark-current'){toggleBookmark(state.ep);return}if(a==='fullscreen'){const el=$('#readerBody');if(document.fullscreenElement){document.exitFullscreen?.()}else{el?.requestFullscreen?.().catch(()=>toast('Vollbild wird von diesem Browser nicht unterstützt'))}return}if(a==='print'){window.print();return}}
+ const target=ev.target.closest('[data-action],[data-page],[data-episode],[data-season],[data-season-list],[data-bookmark],[data-character],[data-font]');if(!target)return;
+ if(target.dataset.action){const a=target.dataset.action;if(a==='menu'){const opened=$('#sidebar').classList.toggle('open');$('#sidebarShade').classList.toggle('open',opened);document.body.classList.toggle('menu-open',opened);$('#mobileMenu').setAttribute('aria-expanded',String(opened));return}if(a==='close-menu'){$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');document.body.classList.remove('menu-open');$('#mobileMenu').setAttribute('aria-expanded','false');return}if(a==='theme'){toggleTheme();return}if(a==='random'){randomEpisode();return}if(a==='bookmarks'){setPage('bookmarks');return}if(a==='continue'){continueReading();return}if(a==='first'){openEpisode(1);return}if(a==='toc'){openToc();return}if(a==='close-modal'){closeModal();return}if(a==='bookmark-current'){toggleBookmark(state.ep);return}if(a==='fullscreen'){const el=$('#readerBody');if(document.fullscreenElement){document.exitFullscreen?.()}else{el?.requestFullscreen?.().catch(()=>toast('Vollbild wird von diesem Browser nicht unterstützt'))}return}if(a==='print'){window.print();return}if(a==='tts-play'){ttsPlay();return}if(a==='tts-pause'){ttsPause();return}if(a==='tts-stop'){ttsStop(true);return}if(a==='tts-preview'){ttsPreview();return}if(a==='tts-key-toggle'){ttsToggleKeyVisibility();return}if(a==='tts-save-key'){ttsSaveKey();return}if(a==='tts-clear-key'){ttsClearKey();return}if(a==='tts-save-settings'){ttsSaveSettings();return}if(a==='tts-download'){ttsDownload();return}if(a==='tts-clear-cache'){ttsClearCache();return}}
  if(target.dataset.page){setPage(target.dataset.page);return}
  if(target.dataset.episode){const n=Number(target.dataset.episode);if(n>=1&&n<=80)openEpisode(n);return}
- if(target.dataset.season){const n=Number(target.dataset.season);if(n>=1&&n<=8){state.seasonFilter=n;setPage('seasons');const sel=$('#seasonFilter');if(sel)sel.value=String(n);const list=$('#allEpisodes');if(list)list.innerHTML=DATA.episodes.filter(e=>e.season===n).map(episodeRow).join('')}return}
+ if(target.dataset.season){const n=Number(target.dataset.season);if(n>=1&&n<=8){const first=DATA.episodes.find(e=>e.season===n);if(first)openEpisode(first.n)}return}if(target.dataset.seasonList){const n=Number(target.dataset.seasonList);if(n>=1&&n<=8){ttsStop(false);state.seasonFilter=n;state.page='seasons';render();history.replaceState(null,'','#staffel-'+n);requestAnimationFrame(()=>$('#allEpisodes')?.scrollIntoView({behavior:'smooth',block:'start'}))}return}
  if(target.dataset.bookmark){toggleBookmark(Number(target.dataset.bookmark));return}
- if(target.dataset.character){state.character=target.dataset.character;state.page='character';render();window.scrollTo({top:0,behavior:'smooth'});return}
+ if(target.dataset.character){ttsStop(false);state.character=target.dataset.character;state.page='character';render();window.scrollTo({top:0,behavior:'smooth'});return}
  if(target.dataset.font){setFont(target.dataset.font);return}
 });
-document.addEventListener('keydown',ev=>{const target=ev.target;if((ev.ctrlKey||ev.metaKey)&&ev.key.toLowerCase()==='k'){ev.preventDefault();$('#globalSearch').focus();$('#globalSearch').select();return}if(ev.key==='Escape'){closeModal();$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false');$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');document.body.classList.remove('menu-open');$('#mobileMenu').setAttribute('aria-expanded','false')}if(target.matches('[data-episode]')&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();openEpisode(target.dataset.episode)}if(target.matches('.char-card')&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();state.character=target.dataset.character;state.page='character';render();window.scrollTo(0,0)}if(state.page==='reader'&&document.activeElement===document.body){if(ev.key==='ArrowRight'&&state.ep<80)openEpisode(state.ep+1);if(ev.key==='ArrowLeft'&&state.ep>1)openEpisode(state.ep-1)}});
+document.addEventListener('keydown',ev=>{const target=ev.target;if((ev.ctrlKey||ev.metaKey)&&ev.key.toLowerCase()==='k'){ev.preventDefault();$('#globalSearch').focus();$('#globalSearch').select();return}if(ev.key==='Escape'){closeModal();$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false');$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');document.body.classList.remove('menu-open');$('#mobileMenu').setAttribute('aria-expanded','false')}if(target.matches('[data-episode]')&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();openEpisode(target.dataset.episode)}if(target.matches('.char-card')&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();state.character=target.dataset.character;state.page='character';render();window.scrollTo(0,0)}if(state.page==='reader'&&document.activeElement===document.body){if(ev.key==='ArrowRight'&&state.ep<80)openEpisode(state.ep+1);if(ev.key==='ArrowLeft'&&state.ep>1)openEpisode(state.ep-1);if(ev.key===' '&&document.body.contains($('#ttsPanel'))){ev.preventDefault();if(ttsIsRunning)ttsPause();else ttsPlay()}}});
 $('#globalSearch').addEventListener('input',e=>search(e.target.value));$('#globalSearch').addEventListener('focus',e=>{if(e.target.value)search(e.target.value)});document.addEventListener('click',e=>{if(!e.target.closest('.top-search')){$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false')}});
 document.addEventListener('change',ev=>{if(ev.target.id==='seasonFilter'){state.seasonFilter=Number(ev.target.value);const q=$('#episodeFilter')?.value.toLowerCase()||'';const list=DATA.episodes.filter(e=>(!state.seasonFilter||e.season===state.seasonFilter)&&episodeSearchText(e).includes(q));$('#allEpisodes').innerHTML=list.length?list.map(episodeRow).join(''):'<div class="empty">Keine Episode passt zu deiner Auswahl.</div>'}});
-document.addEventListener('input',ev=>{if(ev.target.id==='episodeFilter'){const q=ev.target.value.toLowerCase();const list=DATA.episodes.filter(e=>(!state.seasonFilter||e.season===state.seasonFilter)&&episodeSearchText(e).includes(q));$('#allEpisodes').innerHTML=list.length?list.map(episodeRow).join(''):'<div class="empty">Keine Episode passt zu deiner Suche.</div>'}if(ev.target.id==='seasonFilter'){state.seasonFilter=Number(ev.target.value);const q=$('#episodeFilter')?.value.toLowerCase()||'';const list=DATA.episodes.filter(e=>(!state.seasonFilter||e.season===state.seasonFilter)&&episodeSearchText(e).includes(q));$('#allEpisodes').innerHTML=list.length?list.map(episodeRow).join(''):'<div class="empty">Keine Episode passt zu deiner Auswahl.</div>'}if(ev.target.id==='characterFilter'){const q=ev.target.value.toLowerCase();const list=DATA.characters.filter(c=>characterSearchText(c).includes(q));$('#characterGrid').innerHTML=list.length?list.map(characterCard).join(''):'<div class="empty">Keine Figur gefunden.</div>'}});
+document.addEventListener('input',ev=>{if(ev.target.id==='ttsApiKey'){try{sessionStorage.setItem(TTS_KEY_SESSION,ev.target.value.trim())}catch{}}if(['ttsCustomVoiceNarrator','ttsCustomVoiceHarald','ttsCustomVoiceHorst'].includes(ev.target.id)||ev.target.matches('[data-person-custom-voice]'))ttsSaveSettings();if(['ttsVoiceNarrator','ttsVoiceHarald','ttsVoiceHorst','ttsVoiceMale','ttsVoiceFemale','ttsModel','ttsPace'].includes(ev.target.id))ttsSaveSettings();if(ev.target.id==='episodeFilter'){const q=ev.target.value.toLowerCase();const list=DATA.episodes.filter(e=>(!state.seasonFilter||e.season===state.seasonFilter)&&episodeSearchText(e).includes(q));$('#allEpisodes').innerHTML=list.length?list.map(episodeRow).join(''):'<div class="empty">Keine Episode passt zu deiner Suche.</div>'}if(ev.target.id==='seasonFilter'){state.seasonFilter=Number(ev.target.value);const q=$('#episodeFilter')?.value.toLowerCase()||'';const list=DATA.episodes.filter(e=>(!state.seasonFilter||e.season===state.seasonFilter)&&episodeSearchText(e).includes(q));$('#allEpisodes').innerHTML=list.length?list.map(episodeRow).join(''):'<div class="empty">Keine Episode passt zu deiner Auswahl.</div>'}if(ev.target.id==='characterFilter'){const q=ev.target.value.toLowerCase();const list=DATA.characters.filter(c=>characterSearchText(c).includes(q));$('#characterGrid').innerHTML=list.length?list.map(characterCard).join(''):'<div class="empty">Keine Figur gefunden.</div>'}});
+document.addEventListener('change',ev=>{if(['ttsVoiceNarrator','ttsVoiceHarald','ttsVoiceHorst','ttsVoiceMale','ttsVoiceFemale','ttsModel','ttsPace','ttsCharacterVoices','ttsExpressive'].includes(ev.target.id)||ev.target.matches('[data-person-voice]')||ev.target.matches('[data-person-custom-voice]'))ttsSaveSettings();if(ev.target.id==='ttsRememberKey')ttsSaveKey()});
 $('#modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});
 window.addEventListener('hashchange',()=>{const m=location.hash.match(/episode-(\d+)/);if(m&&episode(m[1]))openEpisode(Number(m[1]))});
-$$('[data-action=theme]').forEach(b=>{b.setAttribute('aria-pressed',String(state.theme==='dark'));b.setAttribute('aria-label',state.theme==='dark'?'Hellmodus aktivieren':'Dunkelmodus aktivieren')});render();if(location.hash.match(/episode-(\d+)/)){const n=Number(location.hash.match(/episode-(\d+)/)[1]);if(episode(n))openEpisode(n)}
+$$('[data-action=theme]').forEach(b=>{b.setAttribute('aria-pressed',String(state.theme==='dark'));b.setAttribute('aria-label',state.theme==='dark'?'Hellmodus aktivieren':'Dunkelmodus aktivieren')});ttsInit();render();if(location.hash.match(/episode-(\d+)/)){const n=Number(location.hash.match(/episode-(\d+)/)[1]);if(episode(n))openEpisode(n)}
 </script>
 </body></html>
