@@ -195,13 +195,17 @@ html[data-theme="dark"] .tts-settings summary{color:var(--gold-soft)}
 
 
 /* Minimaler Ein-Knopf-Hörbuchplayer */
-.hh-one-button-panel{display:flex;justify-content:center;align-items:center;margin:18px 0 22px;padding:12px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,var(--card),var(--paper-2));box-shadow:0 8px 24px rgba(28,44,34,.055)}
-.hh-play-button{min-width:180px;min-height:48px;padding:12px 28px!important;border-radius:999px!important;font:700 14px var(--sans)!important;letter-spacing:.015em;box-shadow:0 5px 16px rgba(31,57,43,.14);transition:transform .16s ease,box-shadow .16s ease}
+.hh-one-button-panel{display:flex;flex-direction:column;justify-content:center;align-items:center;margin:18px 0 22px;padding:12px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,var(--card),var(--paper-2));box-shadow:0 8px 24px rgba(28,44,34,.055)}
+.hh-player-buttons{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;flex-wrap:wrap}
+.hh-play-button{min-width:210px;min-height:48px;padding:12px 25px!important;border-radius:999px!important;font:700 14px var(--sans)!important;letter-spacing:.015em;box-shadow:0 5px 16px rgba(31,57,43,.14);transition:transform .16s ease,box-shadow .16s ease}
 .hh-play-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,57,43,.18)}
 .hh-play-button[aria-pressed="true"]{background:var(--forest-2);color:#fff}
 .hh-play-button:disabled{opacity:.72;cursor:wait;transform:none}
+.hh-download-button{min-width:74px;min-height:38px;border-radius:999px!important;padding:8px 13px!important;font:700 11px var(--sans)!important;border-color:var(--gold)!important;color:var(--forest)!important;background:rgba(177,138,74,.10)!important;white-space:nowrap}
+html[data-theme="dark"] .hh-download-button{color:#f3dfae!important;background:rgba(209,180,119,.1)!important}
+.hh-download-button:disabled{opacity:.38;cursor:not-allowed}
 .hh-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
-@media(max-width:480px){.hh-one-button-panel{margin:14px 0 18px;padding:10px}.hh-play-button{width:100%;min-height:50px}}
+@media(max-width:480px){.hh-one-button-panel{margin:14px 0 18px;padding:10px}.hh-player-buttons{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.hh-play-button{width:100%;min-width:0;min-height:50px;padding-inline:12px!important}.hh-download-button{min-height:42px;padding-inline:11px!important}}
 @media(prefers-reduced-motion:reduce){.hh-play-button{transition:none}}
 
 /* Sichtbarer Lade- und Hörfortschritt für die natürliche KI-Stimme */
@@ -366,7 +370,7 @@ const fontSizes={small:'17px',normal:'20px',large:'22px',xlarge:'25px'};
 document.documentElement.style.setProperty('--reading',fontSizes[state.font]||fontSizes.normal);
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._timer);toast._timer=setTimeout(()=>t.classList.remove('show'),2400)}
 function setPage(page){if(state.page==='reader'&&page!=='reader')ttsStop(false);state.page=page;state.mobile=false;$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();window.scrollTo({top:0,behavior:'smooth'});$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));}
-function openEpisode(n){const e=episode(n);if(!e)return;ttsStop(false);closeModal();$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false');document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0);document.documentElement.style.scrollBehavior='';state.ep=e.n;state.page='reader';state.last=e.n;safeStore.set('last',state.last);state.progress[e.n]=state.progress[e.n]||0;safeStore.set('progress',state.progress);$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();history.replaceState(null,'','#episode-'+e.n);window.scrollTo(0,0);}
+function openEpisode(n){const e=episode(n);if(!e)return;ttsCacheHydrationToken++;ttsStop(false);closeModal();$('#searchResults').classList.remove('open');$('#globalSearch').setAttribute('aria-expanded','false');document.documentElement.style.scrollBehavior='auto';window.scrollTo(0,0);document.documentElement.style.scrollBehavior='';state.ep=e.n;state.page='reader';state.last=e.n;safeStore.set('last',state.last);state.progress[e.n]=state.progress[e.n]||0;safeStore.set('progress',state.progress);$('#sidebar').classList.remove('open');$('#sidebarShade').classList.remove('open');$('#mobileMenu').setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');render();history.replaceState(null,'','#episode-'+e.n);window.scrollTo(0,0);}
 function avatarSvg(name,idx=0){const colors=[['#b6a27f','#63775c','#e9d6b7'],['#98a08b','#354c3e','#dec8a8'],['#c1ad91','#5c6e5a','#eadcc2'],['#a99b89','#455b50','#e2cfb2']];const c=colors[idx%colors.length];const female=/Ilse|Maja|Gisela|Nadine|Vera|Anja|Leni|Paula/.test(name);const hair=female?'#786b5a':'#8b8d80';return `<svg viewBox="0 0 150 180" role="img" aria-label="Illustratives Porträt von ${esc(name)}"><rect width="150" height="180" rx="16" fill="${c[0]}"/><path d="M0 148 Q75 105 150 148 V180 H0Z" fill="${c[1]}"/><path d="M35 180 Q40 120 75 116 Q110 120 115 180" fill="${c[1]}"/><ellipse cx="75" cy="73" rx="37" ry="45" fill="#e2c3a2"/><path d="M38 76 Q32 20 78 20 Q119 21 112 79 Q105 48 90 43 Q67 58 40 48Z" fill="${hair}"/><path d="M48 83 Q57 77 65 83 M85 83 Q94 77 102 83" stroke="#554a40" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M69 103 Q76 109 84 102" stroke="#9d6f61" stroke-width="2" fill="none" stroke-linecap="round"/>${/Harald/.test(name)?'<path d="M51 98 Q75 112 99 98 Q94 121 75 118 Q56 117 51 98Z" fill="#89877a"/><circle cx="55" cy="83" r="12" fill="none" stroke="#66706e" stroke-width="3"/><circle cx="95" cy="83" r="12" fill="none" stroke="#66706e" stroke-width="3"/><path d="M67 83 H83" stroke="#66706e" stroke-width="3"/>':''}<path d="M53 126 L75 143 L97 126 L111 180 H39Z" fill="${c[2]}"/><path d="M60 132 L75 143 L90 132" stroke="#b18a4a" stroke-width="2" fill="none"/></svg>`}
 function coverSvg(kind=1){
  const scenes={
@@ -393,7 +397,10 @@ function seasonCard(s){return `<article class="season-card ${s.available?'':'com
 function episodeRow(e){if(!e)return '';const saved=state.bookmarks.includes(e.n);return `<article class="episode-row"><div class="ep-no">${String(e.n).padStart(2,'0')}</div><div class="ep-main" role="button" tabindex="0" aria-label="Episode ${e.n}: ${esc(e.title)} öffnen" data-episode="${e.n}"><h3>${esc(e.title)}</h3><p>${esc(e.deck)}</p></div><div class="ep-side"><span class="ep-tag">${esc(e.genre)}</span><button class="bookmark-mini" data-bookmark="${e.n}" aria-label="Lesezeichen ${saved?'entfernen':'setzen'}">${saved?'★':'☆'}</button></div></article>`}
 function renderSeasons(){const available=DATA.seasons.filter(s=>s.available);return `<div class="eyebrow">Inhaltsverzeichnis</div><h1 class="page-title">Staffeln & Episoden</h1><p class="page-lede">Die Gesamtausgabe führt durch acht Staffeln und achtzig vollständige Geschichten. Jede Episode ist einzeln lesbar und mit Figuren, Schauplätzen und Serienchronik verknüpft.</p><div class="grid season-grid">${available.map(s=>seasonCard(s)).join('')}</div><div class="section-head"><div><h2>Alle 80 Episoden</h2><p>Nach Staffel filtern, Titel entdecken und direkt weiterlesen.</p></div></div><div class="filterbar"><select id="seasonFilter"><option value="0">Alle enthaltenen Staffeln</option>${available.map(s=>`<option value="${s.n}" ${state.seasonFilter===s.n?'selected':''}>Staffel ${s.n}</option>`).join('')}</select><input id="episodeFilter" type="search" placeholder="Episodentitel oder Inhalt filtern …"></div><div class="episode-list" id="allEpisodes">${DATA.episodes.filter(e=>!state.seasonFilter||e.season===state.seasonFilter).map(episodeRow).join('')}</div>${footer()}`}
 function renderReader(){const e=episode(state.ep)||episode(1);const s=season(e.season);const paragraphs=e.text.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');const progress=state.progress[e.n]||0;const saved=state.bookmarks.includes(e.n);return `<div class="reader-progress" role="progressbar" aria-label="Lesefortschritt in dieser Episode" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(progress)}"><i id="readerProgressBar" style="width:${progress}%"></i></div><div class="reader-crumb"><button data-page="seasons">Staffeln & Episoden</button> / <button data-season-list="${e.season}">Staffel ${e.season}</button> / Episode ${String(e.n).padStart(2,'0')}</div><div class="reader-head"><div class="eyebrow">Staffel ${e.season} · Episode ${String(e.n).padStart(2,'0')} · ${esc(e.genre)}</div><h1>${esc(e.title)}</h1><div class="reader-deck">${esc(e.deck)}</div><div class="reader-meta"><span class="meta-pill">${esc(e.place)}</span><span class="meta-pill">${e.cast.length} Figuren im Mittelpunkt</span><span class="meta-pill">${countWords(e.text).toLocaleString('de-DE')} Wörter</span><span class="meta-pill">ca. ${Math.max(1,Math.ceil(countWords(e.text)/190))} Min. Lesezeit</span><span class="meta-pill">${s.title}</span></div></div><section class="tts-panel ai-audio-panel hh-one-button-panel" id="ttsPanel" aria-label="Hörbuch">
-<button class="btn primary hh-play-button" data-action="tts-play" id="ttsPlayBtn" type="button" aria-pressed="false">▶ Abspielen</button>
+<div class="hh-player-buttons">
+  <button class="btn primary hh-play-button" data-action="tts-play" id="ttsPlayBtn" type="button" aria-pressed="false">▶ KI Vorlesen lassen</button>
+  <button class="btn small hh-download-button" data-action="tts-download" id="ttsDownloadBtn" type="button" disabled title="Download wird nach dem Auffinden einer MP3 oder der vollständigen KI-Audioerzeugung aktiviert.">↓ MP3</button>
+</div>
 <div class="hh-loading" id="ttsLoading" hidden aria-live="polite" aria-atomic="true">
   <div class="hh-loading-head"><span id="ttsProgressText">Stimme wird vorbereitet …</span><span id="ttsProgressPercent">0%</span></div>
   <div class="hh-loading-track is-indeterminate" id="ttsProgress" role="progressbar" aria-label="Ladefortschritt der Hörbuchwiedergabe" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ttsProgressBar"></i></div>
@@ -401,6 +408,7 @@ function renderReader(){const e=episode(state.ep)||episode(1);const s=season(e.s
 <div class="hh-loading-error" id="ttsLoadingError" hidden role="alert"></div>
 <div class="tts-status hh-sr-only" id="ttsStatus" role="status" aria-live="polite" data-state="idle">Bereit.</div>
 <audio id="ttsAudioPlayer" preload="none" aria-label="Hörbuch" hidden></audio>
+<p class="hh-sr-only" id="ttsMp3Hint">Die Anwendung sucht nach einer MP3-Datei im selben Ordner wie die HTML-Datei. Das Namensschema lautet Staffel_Episode.mp3, beispielsweise 2_1.mp3.</p>
 </section>
 <div class="reader-toolbar"><button class="btn small" data-action="toc">☷ Inhaltsübersicht</button><button class="btn small" data-action="bookmark-current">${saved?'★ Gespeichert':'☆ Lesezeichen'}</button><span class="tool-label">Schrift</span><button class="btn small" data-font="small" aria-label="Kleine Schriftgröße" aria-pressed="${state.font==='small'}">A−</button><button class="btn small" data-font="normal" aria-label="Normale Schriftgröße" aria-pressed="${state.font==='normal'}">A</button><button class="btn small" data-font="large" aria-label="Große Schriftgröße" aria-pressed="${state.font==='large'}">A+</button><button class="btn small" data-font="xlarge" aria-label="Extra große Schriftgröße" aria-pressed="${state.font==='xlarge'}">A++</button><button class="btn small" data-action="fullscreen">⛶ Lesen</button><button class="btn small" data-action="print">Drucken</button></div><article class="reader-body" id="readerBody">${paragraphs}</article><div class="reader-note"><b>Aus dieser Episode:</b> <div class="reader-cast-strip">${e.cast.map(readerCastChip).join('')}</div><span class="reader-cast-place">Schauplatz: ${esc(e.place)}. Diese Geschichte ist Teil des fortlaufenden Serienkanons.</span></div><div class="reader-end"><span id="readStatus">${progress>=95?'Episode gelesen':`Lesefortschritt: ${Math.round(progress)}%`}</span><div class="reader-nav"><button class="btn small" data-episode="${Math.max(1,e.n-1)}" ${e.n===1?'disabled':''}>← Vorherige</button><button class="btn small primary" data-episode="${Math.min(80,e.n+1)}" ${e.n===80?'disabled':''}>Nächste →</button></div></div>${footer()}`}
 const CHARACTER_PHOTOS = {
@@ -431,7 +439,7 @@ function renderCharacterDetail(name){const c=DATA.characters.find(x=>x.name===na
 function renderChronicle(){return `<div class="eyebrow">Serienkanon</div><h1 class="page-title">Die Chronik von Eichenbrück</h1><p class="page-lede">Die Vorgeschichte ist verbindlicher Teil des Universums. Die neuen Episoden knüpfen daran an und verändern bereits etablierte Ereignisse nicht nachträglich.</p><div class="chronicle">${DATA.chronicle.map(x=>`<div class="chron-item"><div class="chron-period">${esc(x[0])}</div><h3>${esc(x[1])}</h3><p>${esc(x[2])}</p></div>`).join('')}</div>${footer()}`}
 function renderBookmarks(){const list=DATA.episodes.filter(e=>state.bookmarks.includes(e.n));return `<div class="eyebrow">Deine persönliche Sammlung</div><h1 class="page-title">Meine Lesezeichen</h1><p class="page-lede">Hier findest du die Episoden, die du für später markiert hast. Die Auswahl wird lokal auf diesem Gerät gespeichert.</p>${list.length?`<div class="episode-list">${list.map(episodeRow).join('')}</div>`:'<div class="empty">Noch keine Lesezeichen gesetzt.<br>Markiere im Episodenleser eine Geschichte mit ☆, um sie hier wiederzufinden.</div>'}${footer()}`}
 function footer(){return `<footer class="footnote"><span>HARALD HUMMELKRAUSE · CHRONIKEN EINES GANZ GEWÖHNLICHEN WAHNSINNS</span><span>Gesamtausgabe · Episoden 01–80 · Offline-Leseausgabe</span></footer>`}
-function render(){const view=$('#view');if(state.page==='home')view.innerHTML=renderHome();else if(state.page==='seasons')view.innerHTML=renderSeasons();else if(state.page==='reader')view.innerHTML=renderReader();else if(state.page==='characters')view.innerHTML=renderCharacters();else if(state.page==='character')view.innerHTML=renderCharacterDetail(state.character);else if(state.page==='chronicle')view.innerHTML=renderChronicle();else if(state.page==='bookmarks')view.innerHTML=renderBookmarks();else view.innerHTML=renderHome();$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===state.page));if(state.page==='reader'){updateReaderProgress();ttsInit();}}
+function render(){const view=$('#view');if(state.page==='home')view.innerHTML=renderHome();else if(state.page==='seasons')view.innerHTML=renderSeasons();else if(state.page==='reader')view.innerHTML=renderReader();else if(state.page==='characters')view.innerHTML=renderCharacters();else if(state.page==='character')view.innerHTML=renderCharacterDetail(state.character);else if(state.page==='chronicle')view.innerHTML=renderChronicle();else if(state.page==='bookmarks')view.innerHTML=renderBookmarks();else view.innerHTML=renderHome();$$('.nav-link[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===state.page));if(state.page==='reader'){updateReaderProgress();ttsInit();ttsProbeCurrentEpisodeMp3();}}
 function toggleBookmark(n){n=Number(n);if(state.bookmarks.includes(n)){state.bookmarks=state.bookmarks.filter(x=>x!==n);toast('Lesezeichen entfernt')}else{state.bookmarks.push(n);toast('Episode gespeichert')}safeStore.set('bookmarks',state.bookmarks);render()}
 function setFont(v){if(!fontSizes[v])return;state.font=v;document.documentElement.style.setProperty('--reading',fontSizes[v]);safeStore.set('font',v);$$('[data-font]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.font===v)));toast('Schriftgröße: '+({small:'klein',normal:'normal',large:'groß',xlarge:'extra groß'}[v]));}
 function toggleTheme(){state.theme=state.theme==='light'?'dark':'light';document.documentElement.dataset.theme=state.theme;safeStore.set('theme',state.theme);$$('[data-action=theme]').forEach(b=>{b.setAttribute('aria-pressed',String(state.theme==='dark'));b.setAttribute('aria-label',state.theme==='dark'?'Hellmodus aktivieren':'Dunkelmodus aktivieren')});toast(state.theme==='dark'?'Dunkelmodus aktiviert':'Hellmodus aktiviert')}
@@ -512,8 +520,17 @@ let ttsPreviewQueue=[];
 let ttsDbPromise=null;
 let ttsMemoryCache=new Map();
 let ttsLastWavBlob=null;
+let ttsLastWavEpisode=0;
 let ttsCurrentGeneratingIndex=-1;
 let ttsPendingStart=false;
+// Companion MP3 files are checked by a lightweight HEAD request only (never a TTS API call).
+// Naming convention: <season>_<episode-within-season>.mp3, e.g. 2_1.mp3.
+let ttsMp3ProbeCache=new Map();
+let ttsCurrentMp3Info=null;
+let ttsMp3UiToken=0;
+let ttsPublishedMp3Active=false;
+let ttsCacheHydrationToken=0;
+let ttsCacheHydrationEpisode=0;
 
 function ttsStatus(message,kind='idle'){
   const el=$('#ttsStatus');if(el){el.textContent=message;el.dataset.state=kind;}
@@ -533,13 +550,29 @@ function ttsStatus(message,kind='idle'){
   if(button&&kind==='error'){button.title=message;button.dataset.error='true';button.textContent='↻ Erneut versuchen';button.setAttribute('aria-label','Erneut versuchen. '+message);}
   if(button&&kind!=='error'){button.removeAttribute('title');delete button.dataset.error;}
 }
+function ttsHasCompleteGeneratedAudio(episodeNo=state.ep){
+  const sameEpisode=Number(ttsRunEpisode)===Number(episodeNo);
+  const completeRun=ttsRunMode==='episode'&&sameEpisode&&ttsSegments.length>0&&ttsAudioBlobs.length===ttsSegments.length;
+  return completeRun&&ttsAudioBlobs.every(blob=>blob instanceof Blob&&blob.size>44&&String(blob.type||'').startsWith('audio/'));
+}
 function ttsRefreshButtons(){
   const play=$('#ttsPlayBtn');
   if(play){
-    play.textContent=ttsIsRunning?'■ Stoppen':'▶ Abspielen';
+    const hasMp3=ttsCurrentMp3Info?.status==='present';
+    play.textContent=ttsIsRunning?'■ Stoppen':(hasMp3?'▶ Vorlesung starten':'▶ KI Vorlesen lassen');
     play.setAttribute('aria-pressed',String(ttsIsRunning));
-    play.setAttribute('aria-label',ttsIsRunning?'Hörbuchwiedergabe stoppen':'Aktuelle Episode abspielen');
+    play.setAttribute('aria-label',ttsIsRunning?'Hörbuchwiedergabe stoppen':(hasMp3?'Vorhandene MP3-Vorlesung starten':'Aktuelle Episode mit KI vorlesen lassen'));
     play.disabled=false;
+  }
+  const download=$('#ttsDownloadBtn');
+  if(download){
+    const hasMp3=ttsCurrentMp3Info?.status==='present';
+    const hasGenerated=ttsHasCompleteGeneratedAudio(state.ep);
+    if(hasGenerated)ttsLastWavEpisode=Number(state.ep);
+    download.disabled=!(hasMp3||hasGenerated);
+    download.textContent=hasMp3?'↓ MP3':(hasGenerated?'↓ Audio':'↓ MP3');
+    download.title=hasMp3?'Vorhandene MP3-Datei herunterladen':(hasGenerated?'Die vollständig generierte KI-Audiofassung als WAV herunterladen':'Der Download wird aktiviert, sobald eine MP3-Datei gefunden oder die KI-Audiofassung vollständig erzeugt wurde.');
+    download.setAttribute('aria-label',hasMp3?'MP3 der aktuellen Episode herunterladen':(hasGenerated?'Erzeugte Audiofassung herunterladen':'Audio-Download noch nicht verfügbar'));
   }
 }
 function ttsSetProgress(done,total,label=''){
@@ -589,6 +622,75 @@ function ttsUseSystemFallback(){const until=Number(ttsKeyState.globalUntil)||0;r
 function ttsMarkRateLimited(index,json,response){const duration=ttsCooldownFromError(json,response);ttsKeyState.cooldowns[index]=Date.now()+duration;ttsKeyState.lastReason[index]='rate-limit';ttsSaveKeyRotationState();return duration}
 function ttsMarkKeyInvalid(index){ttsKeyState.invalid[index]=Date.now()+24*60*60*1000;ttsKeyState.lastReason[index]='auth';ttsSaveKeyRotationState()}
 function ttsKeyRotationSummary(){const now=Date.now();const active=TTS_API_KEYS.filter((_,i)=>ttsKeyAvailable(i,now)).length;return `${active} von ${TTS_API_KEYS.length} API-Schlüsseln verfügbar`;}
+function ttsEpisodeLocalNumber(ep){
+  const inSeason=DATA.episodes.filter(x=>Number(x.season)===Number(ep.season)).sort((a,b)=>Number(a.n)-Number(b.n));
+  const index=inSeason.findIndex(x=>Number(x.n)===Number(ep.n));
+  return index>=0?index+1:((Number(ep.n)-1)%10)+1;
+}
+function ttsCompanionMp3Info(ep){
+  if(!ep)return null;
+  const localNo=ttsEpisodeLocalNumber(ep);
+  const filename=`${Number(ep.season)}_${localNo}.mp3`;
+  const pageUrl=new URL(window.location.href);
+  // GitHub's source-browser URL is HTML; use the matching raw-file URL instead.
+  const github=pageUrl.hostname==='github.com'?pageUrl.pathname.match(/^\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.*)$/):null;
+  let url;
+  if(github){
+    const folder=github[4].split('/').slice(0,-1).filter(Boolean).join('/');
+    url=`https://raw.githubusercontent.com/${github[1]}/${github[2]}/${github[3]}/${folder?folder+'/':''}${filename}`;
+  }else{
+    url=new URL(filename,document.baseURI).href;
+  }
+  return {filename,url,episode:Number(ep.n),season:Number(ep.season),localEpisode:localNo};
+}
+async function ttsCheckCompanionMp3(ep){
+  const info=ttsCompanionMp3Info(ep);
+  if(!info)return {status:'missing'};
+  if(location.protocol==='file:')return {...info,status:'unsupported-local-file',reason:'Die automatische Erkennung benachbarter MP3-Dateien ist bei file:// durch Browser-Sicherheitsregeln blockiert. Bitte über GitHub Pages oder einen lokalen Webserver öffnen.'};
+  if(ttsMp3ProbeCache.has(info.url))return ttsMp3ProbeCache.get(info.url);
+  const promise=(async()=>{
+    const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),7000);
+    try{
+      const response=await fetch(info.url,{method:'HEAD',cache:'no-store',redirect:'follow',signal:controller.signal});
+      if(response.ok)return {...info,status:'present',contentType:response.headers.get('content-type')||'audio/mpeg'};
+      if(response.status===404||response.status===410)return {...info,status:'missing'};
+      return {...info,status:'unknown',reason:`MP3-Prüfung antwortete mit HTTP ${response.status}.`};
+    }catch(err){
+      return {...info,status:'unknown',reason:err?.name==='AbortError'?'Zeitüberschreitung bei der MP3-Prüfung.':'MP3-Datei konnte nicht geprüft werden (Netzwerk/CORS).'};
+    }finally{clearTimeout(timeout)}
+  })();
+  ttsMp3ProbeCache.set(info.url,promise);
+  return promise;
+}
+function ttsProbeCurrentEpisodeMp3(){
+  const ep=episode(state.ep);const token=++ttsMp3UiToken;
+  ttsCurrentMp3Info=null;ttsRefreshButtons();
+  if(!ep)return;
+  ttsCheckCompanionMp3(ep).then(info=>{
+    if(token!==ttsMp3UiToken||state.page!=='reader'||Number(state.ep)!==Number(ep.n))return;
+    ttsCurrentMp3Info=info;ttsRefreshButtons();
+    if(info.status==='unsupported-local-file'){
+      const status=$('#ttsStatus');if(status)status.textContent=info.reason;
+    }
+  });
+}
+function ttsDownloadBlob(blob,filename){
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+function ttsPlayCompanionMp3(ep,info){
+  const player=$('#ttsAudioPlayer');
+  if(!player)throw new Error('Der Audio-Player ist in dieser Ansicht nicht verfügbar.');
+  ttsStop(false);ttsSegments=[{id:`published-mp3-${ep.n}`,text:'',role:'narrator',speaker:'Vorproduzierte MP3'}];ttsAudioBlobs=[null];ttsCurrentIndex=0;ttsRunEpisode=ep.n;ttsRunMode='published-mp3';ttsLastWavBlob=null;ttsLastWavEpisode=0;ttsIsRunning=true;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsPublishedMp3Active=true;const run=++ttsRunId;
+  if(ttsCurrentUrl){URL.revokeObjectURL(ttsCurrentUrl);ttsCurrentUrl=null}
+  player.pause();player.src=info.url;player.currentTime=0;
+  ttsSetProgress(0,1,'Vorproduzierte MP3 wird geladen …');ttsStatus(`Vorhandene MP3 wird abgespielt · ${info.filename}`,'playing');ttsRefreshButtons();
+  player.ontimeupdate=()=>{if(run!==ttsRunId||!ttsIsRunning)return;if(Number.isFinite(player.duration)&&player.duration>0){const pct=Math.round(player.currentTime/player.duration*100);ttsSetProgress(pct,100,`Vorlesung · ${pct}%`);}};
+  player.onloadedmetadata=()=>{if(run===ttsRunId&&ttsIsRunning)ttsSetProgress(0,100,'Vorlesung startet · vorhandene MP3-Datei');};
+  player.onended=()=>{if(run!==ttsRunId||!ttsIsRunning)return;ttsSetProgress(100,100,'Vorlesung vollständig gehört');ttsComplete(run)};
+  player.onerror=()=>{if(run!==ttsRunId||!ttsIsRunning)return;ttsStop(false);ttsStatus(`Die vorhandene Datei ${info.filename} konnte nicht abgespielt werden. Bitte MP3-Datei und Dateinamen prüfen. Es wurde keine KI-Neugenerierung gestartet.`,'error');};
+  player.play().then(()=>ttsRefreshButtons()).catch(err=>{if(run!==ttsRunId)return;ttsStop(false);ttsStatus(`Die MP3-Wiedergabe konnte nicht gestartet werden: ${err?.message||'Browserfehler'}. Bitte erneut auf Abspielen drücken.`,'error');});
+}
+
 function ttsInit(){
   const keyInput=$('#ttsApiKey');if(keyInput){let key='';try{key=sessionStorage.getItem(TTS_KEY_SESSION)||localStorage.getItem(TTS_KEY_LOCAL)||''}catch{};keyInput.value=key}
   const remembered=(()=>{try{return !!localStorage.getItem(TTS_KEY_LOCAL)}catch{return false}})();
@@ -600,6 +702,7 @@ function ttsInit(){
   $$('[data-person-voice]').forEach(el=>{const value=ttsPrefs['person:'+el.dataset.personVoice];if(value&&[...el.options].some(o=>o.value===value))el.value=value});
   $$('[data-person-custom-voice]').forEach(el=>{const value=ttsPrefs['person-custom:'+el.dataset.personCustomVoice];if(value)el.value=value});
   ttsRefreshButtons();ttsUpdateCacheInfo();
+  if(state.page==='reader')ttsRestoreCachedEpisodeAudio(state.ep);
 }
 function ttsSaveKey(){
   const input=$('#ttsApiKey'),key=(input?.value||'').trim();
@@ -811,6 +914,34 @@ async function ttsCacheGet(key){
   const db=await ttsOpenDB();if(!db)return null;
   return new Promise(resolve=>{try{const tx=db.transaction('audio','readonly');const req=tx.objectStore('audio').get(key);req.onsuccess=()=>{const blob=req.result?.blob||null;if(blob)ttsMemoryCache.set(key,blob);resolve(blob)};req.onerror=()=>resolve(null)}catch{resolve(null)}});
 }
+async function ttsRestoreCachedEpisodeAudio(epNo=state.ep){
+  const token=++ttsCacheHydrationToken;
+  const ep=episode(epNo);
+  if(!ep||state.page!=='reader')return false;
+  const segments=ttsBuildSegments(ep);
+  if(!segments.length)return false;
+  const cacheEpisode=Number(ep.n);
+  ttsCacheHydrationEpisode=cacheEpisode;
+  try{
+    const blobs=await Promise.all(segments.map(async(segment,index)=>{
+      const key=await ttsCacheKey(segment,cacheEpisode,index);
+      return await ttsCacheGet(key);
+    }));
+    if(token!==ttsCacheHydrationToken||state.page!=='reader'||Number(state.ep)!==cacheEpisode)return false;
+    const complete=blobs.length===segments.length&&blobs.length>0&&blobs.every(blob=>blob instanceof Blob&&blob.size>44&&String(blob.type||'').startsWith('audio/'));
+    if(!complete)return false;
+    // Restore only locally cached audio. This never contacts the speech API.
+    if(!ttsIsRunning||Number(ttsRunEpisode)!==cacheEpisode){
+      ttsSegments=segments;
+      ttsAudioBlobs=blobs;
+      ttsRunEpisode=cacheEpisode;
+      ttsRunMode='episode';
+      ttsLastWavEpisode=cacheEpisode;
+    }
+    ttsRefreshButtons();
+    return true;
+  }catch{return false;}
+}
 async function ttsCachePut(key,blob){
   ttsMemoryCache.set(key,blob);const db=await ttsOpenDB();if(!db)return;
   await new Promise(resolve=>{try{const tx=db.transaction('audio','readwrite');tx.objectStore('audio').put({key,blob,size:blob.size,created:Date.now()});tx.oncomplete=()=>resolve();tx.onerror=()=>resolve();tx.onabort=()=>resolve()}catch{resolve()}});
@@ -821,7 +952,7 @@ async function ttsUpdateCacheInfo(){
   try{const total=await new Promise(resolve=>{const tx=db.transaction('audio','readonly');const req=tx.objectStore('audio').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>resolve([])});const bytes=total.reduce((n,x)=>n+(x.size||x.blob?.size||0),0);el.textContent=total.length?`${total.length} Audioabschnitte lokal gespeichert · ${ (bytes/1024/1024).toFixed(1).replace('.',',')} MB. Gespeicherte Abschnitte lassen sich ohne erneute API-Anfrage abspielen.`:'Noch keine Audioabschnitte gespeichert. Nach der ersten Erzeugung bleiben sie lokal im Browser verfügbar.'}catch{el.textContent='Lokaler Audio-Speicher ist bereit.'}
 }
 async function ttsClearCache(){
-  ttsStop(false);const db=await ttsOpenDB();ttsMemoryCache.clear();ttsLastWavBlob=null;ttsAudioBlobs=[];
+  ttsStop(false);const db=await ttsOpenDB();ttsMemoryCache.clear();ttsLastWavBlob=null;ttsLastWavEpisode=0;ttsAudioBlobs=[];
   if(db)await new Promise(resolve=>{try{const tx=db.transaction('audio','readwrite');tx.objectStore('audio').clear();tx.oncomplete=resolve;tx.onerror=resolve;tx.onabort=resolve}catch{resolve()}});
   ttsRefreshButtons();ttsUpdateCacheInfo();ttsStatus('Der lokale Hörbuchcache wurde geleert.','idle');
 }
@@ -1043,6 +1174,9 @@ async function ttsPlayNext(runId){
   }
   if(!ttsIsRunning||runId!==ttsRunId||ttsIsPaused)return;
   if(blob===TTS_SYSTEM_FALLBACK||blob?.systemFallback){ttsForceSystemFallbackForRun=true;ttsPlaySystemSegment(seg,index,runId);ttsRefreshButtons();return;}
+  // Enable download as soon as every segment has been generated/cached, even
+  // while the final segment is still playing. No need to wait for episode end.
+  if(ttsHasCompleteGeneratedAudio(ttsRunEpisode)){ttsLastWavEpisode=Number(ttsRunEpisode);ttsRefreshButtons();}
   const player=$('#ttsAudioPlayer');
   if(!player){ttsForceSystemFallbackForRun=true;ttsPlaySystemSegment(seg,index,runId);return;}
   if(ttsCurrentUrl)URL.revokeObjectURL(ttsCurrentUrl);
@@ -1068,13 +1202,17 @@ async function ttsPlayNext(runId){
 }
 async function ttsComplete(runId){
   if(runId!==ttsRunId)return;
-  ttsIsRunning=false;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsUsingSystemFallback=false;ttsSystemUtterance=null;
+  const wasPublishedMp3=ttsRunMode==='published-mp3';
+  ttsIsRunning=false;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsUsingSystemFallback=false;ttsSystemUtterance=null;ttsPublishedMp3Active=false;
   const player=$('#ttsAudioPlayer');if(player){player.onended=null;player.onerror=null;player.ontimeupdate=null;}
-  ttsStatus('Episode vollständig abgespielt. Erzeugte Audioabschnitte bleiben lokal gespeichert.','idle');
+  const allGenerated=!wasPublishedMp3&&ttsHasCompleteGeneratedAudio(ttsRunEpisode);
+  if(allGenerated)ttsLastWavEpisode=Number(ttsRunEpisode);
+  else if(!wasPublishedMp3){ttsLastWavBlob=null;ttsLastWavEpisode=0;}
+  ttsStatus(wasPublishedMp3?'Vorlesung vollständig abgespielt. Die vorhandene MP3-Datei wurde direkt verwendet.':'Episode vollständig abgespielt. Erzeugte Audioabschnitte bleiben lokal gespeichert.','idle');
   ttsSetProgress(ttsSegments.length,ttsSegments.length,'Fertig · Episode vollständig gehört');ttsRefreshButtons();
 }
 function ttsStop(showMessage=true){
-  ttsRunId++;ttsIsRunning=false;ttsIsPaused=false;ttsPendingStart=false;ttsUsingSystemFallback=false;ttsSystemUtterance=null;
+  ttsRunId++;ttsIsRunning=false;ttsIsPaused=false;ttsPendingStart=false;ttsUsingSystemFallback=false;ttsSystemUtterance=null;ttsPublishedMp3Active=false;
   try{if('speechSynthesis'in window)window.speechSynthesis.cancel()}catch{}
   for(const c of ttsAbortControllers){try{c.abort()}catch{}}ttsAbortControllers.clear();
   const player=$('#ttsAudioPlayer');if(player){player.pause();player.removeAttribute('src');try{player.load()}catch{}player.onended=null;player.onerror=null;player.ontimeupdate=null}
@@ -1089,7 +1227,7 @@ function ttsPause(){
 }
 async function ttsStartSegments(segments,mode='episode',episodeNo=state.ep){
   if(!segments.length){ttsStatus('Für diese Episode wurde kein lesbarer Text gefunden.','error');return}
-  ttsStop(false);ttsSegments=segments;ttsAudioBlobs=new Array(segments.length);ttsCurrentIndex=0;ttsRunEpisode=episodeNo;ttsRunMode=mode;ttsLastWavBlob=null;ttsIsRunning=true;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;const run=++ttsRunId;
+  ttsStop(false);ttsSegments=segments;ttsAudioBlobs=new Array(segments.length);ttsCurrentIndex=0;ttsRunEpisode=episodeNo;ttsRunMode=mode;ttsLastWavBlob=null;ttsLastWavEpisode=0;ttsIsRunning=true;ttsIsPaused=false;ttsForceSystemFallbackForRun=false;ttsPublishedMp3Active=false;const run=++ttsRunId;
   ttsSetProgress(0,segments.length,`Stimme wird vorbereitet · ${segments.length} Sprachabschnitte`);ttsRefreshButtons();ttsStatus(`Hörbuch wird vorbereitet · ${segments.length} Sprachabschnitte`,'loading');
   await ttsPlayNext(run);
 }
@@ -1099,15 +1237,27 @@ async function ttsPlay(){
   const ep=episode(state.ep);
   if(!ep){ttsStatus('Die ausgewählte Episode wurde nicht gefunden.','error');return;}
   ttsPendingStart=true;
+  const playButton=$('#ttsPlayBtn');if(playButton)playButton.disabled=true;
   try{
+    // First check for a pre-produced MP3 beside the HTML. This is a HEAD request,
+    // not a Gemini/API call. If it exists, play it directly and never regenerate.
+    let mp3Info=ttsCurrentMp3Info;
+    if(!mp3Info || Number(mp3Info.episode)!==Number(ep.n))mp3Info=await ttsCheckCompanionMp3(ep);
+    if(mp3Info?.status==='present'){
+      ttsCurrentMp3Info=mp3Info;ttsRefreshButtons();
+      await ttsPlayCompanionMp3(ep,mp3Info);
+      return;
+    }
+    if(mp3Info?.status==='unknown'){
+      ttsStatus(`${mp3Info.reason||'Die MP3-Datei konnte nicht geprüft werden.'} Es wird mit der KI-Stimme fortgefahren.`,'loading');
+    }
     const segments=ttsBuildSegments(ep);
     if(!segments.length)throw new Error(`Episode ${String(ep.n).padStart(2,'0')} enthält keinen vorlesbaren Text.`);
-    // Recheck data integrity before spending API quota.
     const joined=segments.map(x=>x.text).join('');
     if(!joined.includes(ttsExtractEpisodeText(ep)))throw new Error('Der vollständige Episodentext konnte nicht in die Hörbuchabschnitte übernommen werden. Es wurde kein API-Aufruf gestartet.');
     await ttsStartSegments(segments,'episode',ep.n);
   }catch(err){if(err?.name!=='AbortError')ttsStatus(err.message||'Die Episode konnte nicht vorbereitet werden.','error');}
-  finally{ttsPendingStart=false;}
+  finally{ttsPendingStart=false;if(playButton)playButton.disabled=false;ttsRefreshButtons();}
 }
 async function ttsPreview(){
   if(!TTS_API_KEYS.length){ttsStatus('Keine API-Schlüssel hinterlegt.','error');return}
@@ -1126,8 +1276,31 @@ async function ttsMergeWav(blobs){
   const parts=await Promise.all(blobs.map(ttsWavParts));const fmt=parts[0].fmt;const fmtView=new DataView(fmt.buffer,fmt.byteOffset,fmt.byteLength);const channels=fmtView.getUint16(2,true),sampleRate=fmtView.getUint32(4,true),bits=fmtView.getUint16(14,true);const dataSize=parts.reduce((n,x)=>n+x.data.length,0);const header=new ArrayBuffer(44);const v=new DataView(header);const write=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};write(0,'RIFF');v.setUint32(4,36+dataSize,true);write(8,'WAVE');write(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,channels,true);v.setUint32(24,sampleRate,true);v.setUint32(28,sampleRate*channels*bits/8,true);v.setUint16(32,channels*bits/8,true);v.setUint16(34,bits,true);write(36,'data');v.setUint32(40,dataSize,true);return new Blob([header,...parts.map(x=>x.data)],{type:'audio/wav'});
 }
 async function ttsDownload(){
-  if(!ttsLastWavBlob){ttsStatus('Der Download wird freigeschaltet, sobald die gesamte Episode einmal erzeugt wurde.','error');return}
-  const e=episode(ttsRunEpisode)||episode(state.ep);const url=URL.createObjectURL(ttsLastWavBlob);const a=document.createElement('a');a.href=url;a.download=`Harald-Hummelkrause-Episode-${String(e.n).padStart(2,'0')}-${(e.title||'Hoerbuch').replace(/[^\p{L}\p{N}-]+/gu,'-')}.wav`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);ttsStatus('WAV-Datei wurde zum Speichern bereitgestellt.','idle');
+  const e=episode(state.ep)||episode(ttsRunEpisode);
+  if(!e){ttsStatus('Keine Episode für den Download ausgewählt.','error');return;}
+  const info=ttsCurrentMp3Info?.episode===e.n?ttsCurrentMp3Info:await ttsCheckCompanionMp3(e);
+  if(info?.status==='present'){
+    try{
+      const response=await fetch(info.url,{method:'GET',cache:'force-cache'});
+      if(!response.ok)throw new Error(`HTTP ${response.status}`);
+      const blob=await response.blob();
+      if(!blob.size)throw new Error('Die MP3-Datei ist leer.');
+      ttsDownloadBlob(blob,info.filename);
+      ttsStatus(`${info.filename} wurde heruntergeladen.`,'idle');return;
+    }catch(err){
+      // Same-origin/GitHub Pages fallback: let the browser handle the file URL.
+      const a=document.createElement('a');a.href=info.url;a.download=info.filename;a.rel='noopener';document.body.append(a);a.click();a.remove();
+      ttsStatus(`Download der vorhandenen MP3 wurde gestartet. Falls der Browser sie nur öffnet, über das Download-Menü speichern. (${err.message||'Netzwerkfehler'})`,'idle');return;
+    }
+  }
+  if(ttsHasCompleteGeneratedAudio(e.n)){
+    try{
+      const wav=await ttsMergeWav(ttsAudioBlobs);
+      ttsDownloadBlob(wav,`Harald-Hummelkrause-${String(e.season)}_${ttsEpisodeLocalNumber(e)}.wav`);
+      ttsStatus('Die erzeugte Google-TTS-Audiodatei wurde als WAV gespeichert. Für eine echte MP3-Datei bitte die MP3 neben der HTML-Datei ablegen.','idle');return;
+    }catch(err){ttsStatus('Die Audiodatei konnte nicht zusammengeführt werden: '+(err.message||'unbekannter Fehler'),'error');return;}
+  }
+  ttsStatus('Für diese Episode liegt noch keine MP3-Datei vor. Nach vollständiger KI-Erzeugung ist die erzeugte Audiofassung als WAV speicherbar.','error');
 }
 function ttsToggleKeyVisibility(){const el=$('#ttsApiKey');if(!el)return;el.type=el.type==='password'?'text':'password';const b=$('[data-action="tts-key-toggle"]');if(b)b.textContent=el.type==='password'?'Anzeigen':'Verbergen'}
 
